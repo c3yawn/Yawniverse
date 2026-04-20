@@ -70,6 +70,7 @@ export default function Home() {
               Alexander wept when he heard Anaxarchus discourse about an infinite number of worlds, and when his friends inquired what ailed him, 'Is it not worthy of tears,' he said, 'that, when the number of worlds is infinite, we have not yet become lords of a single one?'
             </Typography>
             <Typography
+              variant="caption"
               sx={{
                 fontFamily: '"Cinzel", serif',
                 fontSize: '0.6rem',
