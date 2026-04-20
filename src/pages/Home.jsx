@@ -22,8 +22,14 @@ const SYSTEM_GRADIENTS = {
   },
 };
 
+const DEFAULT_GRADIENT = {
+  text: 'linear-gradient(90deg, #a78bfa, #818cf8)',
+  underline: 'linear-gradient(90deg, #a78bfa, #818cf8)',
+  glow: 'rgba(167,139,250,0.4)',
+};
+
 export default function Home() {
-  const [activeSystemId, setActiveSystemId] = useState('swn');
+  const [activeSystemId, setActiveSystemId] = useState(systems[0].id);
   const activeSystem = systems.find((s) => s.id === activeSystemId);
 
   return (
@@ -117,7 +123,7 @@ export default function Home() {
         >
           {systems.map((system) => {
             const isActive = system.id === activeSystemId;
-            const grad = SYSTEM_GRADIENTS[system.id];
+            const grad = SYSTEM_GRADIENTS[system.id] ?? DEFAULT_GRADIENT;
             return (
               <Box
                 key={system.id}
@@ -136,6 +142,7 @@ export default function Home() {
                   opacity: isActive ? 1 : 0.3,
                   cursor: 'pointer',
                   border: 'none',
+                  backgroundColor: 'transparent',
                   padding: '0 0 10px 0',
                   position: 'relative',
                   '&::after': isActive
@@ -159,7 +166,7 @@ export default function Home() {
           })}
         </Box>
 
-        <SystemSection system={activeSystem} />
+        {activeSystem && <SystemSection system={activeSystem} />}
       </Container>
     </>
   );
