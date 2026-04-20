@@ -8,10 +8,9 @@ export default function NebulaBackground() {
         loop
         muted
         playsInline
-        style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.45, display: 'block' }}
-      >
-        <source src={`${import.meta.env.BASE_URL}nebula.mp4`} type="video/mp4" />
-      </video>
+        src={`${import.meta.env.BASE_URL}nebula.mp4`}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.65, display: 'block' }}
+      />
       <Box
         sx={{
           position: 'absolute',
