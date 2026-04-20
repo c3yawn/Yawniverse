@@ -3,30 +3,23 @@ import CampaignCard from './CampaignCard';
 
 export default function SystemSection({ system }) {
   return (
-    <Box component="section" sx={{ mb: 7 }}>
+    <Box component="section" sx={{ mb: 8 }}>
       <Typography
-        variant="h4"
+        variant="overline"
         component="h2"
         sx={{
-          mb: 0.75,
+          display: 'block',
+          mb: 1.5,
           fontWeight: 700,
-          background: 'linear-gradient(90deg, #a855f7 0%, #0ea5e9 60%, #2dd4bf 100%)',
-          backgroundClip: 'text',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          display: 'inline-block',
+          letterSpacing: '0.15em',
+          color: 'rgba(167, 139, 250, 0.85)',
+          fontSize: '0.72rem',
         }}
       >
         {system.name}
       </Typography>
 
-      <Divider
-        sx={{
-          mb: 3,
-          borderColor: 'rgba(124, 58, 237, 0.3)',
-          boxShadow: '0 0 6px rgba(124, 58, 237, 0.3)',
-        }}
-      />
+      <Divider sx={{ mb: 3, borderColor: 'rgba(124, 58, 237, 0.15)' }} />
 
       <Grid container spacing={3}>
         {system.campaigns.map((campaign, i) => (

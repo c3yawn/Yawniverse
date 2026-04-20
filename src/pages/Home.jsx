@@ -1,11 +1,4 @@
-import {
-  AppBar,
-  Box,
-  Container,
-  Toolbar,
-  Typography,
-} from '@mui/material';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import { AppBar, Box, Container, Toolbar, Typography } from '@mui/material';
 import NebulaBackground from '../components/NebulaBackground';
 import SystemSection from '../components/SystemSection';
 import { systems } from '../data/campaigns';
@@ -16,49 +9,46 @@ export default function Home() {
       <NebulaBackground />
 
       <AppBar position="sticky" elevation={0}>
-        <Toolbar sx={{ gap: 1.5 }}>
-          <AutoAwesomeIcon sx={{ color: 'secondary.main', fontSize: 22 }} />
+        <Toolbar>
           <Typography
-            variant="h6"
+            variant="subtitle2"
             component="span"
             sx={{
               fontWeight: 700,
-              letterSpacing: '0.06em',
-              background: 'linear-gradient(90deg, #a855f7, #0ea5e9)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: '#a78bfa',
+              fontSize: '0.78rem',
             }}
           >
-            The Astral Archive
+            The Yawniverse
           </Typography>
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="lg" sx={{ py: 6 }}>
-        <Box sx={{ mb: 7, textAlign: 'center' }}>
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        <Box sx={{ mb: 8, textAlign: 'center' }}>
           <Typography
             variant="h2"
             component="h1"
             sx={{
               fontWeight: 700,
-              mb: 1.5,
-              background: 'linear-gradient(135deg, #c084fc 0%, #60a5fa 50%, #2dd4bf 100%)',
+              mb: 2,
+              background: 'linear-gradient(135deg, #c084fc 0%, #818cf8 100%)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              fontSize: { xs: '2rem', sm: '2.75rem', md: '3.5rem' },
+              fontSize: { xs: '2rem', sm: '2.75rem', md: '3.25rem' },
             }}
           >
             Campaign Codex
           </Typography>
           <Typography
-            variant="body1"
+            variant="body2"
             color="text.secondary"
-            sx={{ maxWidth: 540, mx: 'auto', lineHeight: 1.8, letterSpacing: '0.02em' }}
+            sx={{ maxWidth: 400, mx: 'auto', lineHeight: 1.8, letterSpacing: '0.03em' }}
           >
-            Worlds built, stories told, legends remembered. A living record of every campaign
-            across the stars and beyond.
+            A living record of every campaign across the stars and beyond.
           </Typography>
         </Box>
 

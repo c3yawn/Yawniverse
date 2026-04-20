@@ -8,12 +8,12 @@ export const theme = createTheme({
     success: { main: '#10b981' },
     warning: { main: '#f59e0b' },
     background: {
-      default: '#050510',
-      paper: 'rgba(10, 8, 30, 0.72)',
+      default: '#020208',
+      paper: 'rgba(6, 4, 20, 0.88)',
     },
     text: {
       primary: '#e2e8f0',
-      secondary: '#94a3b8',
+      secondary: '#64748b',
     },
   },
   typography: {
@@ -29,9 +29,9 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: 'none',
-          backdropFilter: 'blur(14px)',
-          WebkitBackdropFilter: 'blur(14px)',
-          border: '1px solid rgba(124, 58, 237, 0.18)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid rgba(124, 58, 237, 0.12)',
         },
       },
     },
@@ -40,7 +40,8 @@ export const theme = createTheme({
         root: {
           fontFamily: '"Raleway", sans-serif',
           fontWeight: 600,
-          fontSize: '0.7rem',
+          fontSize: '0.65rem',
+          letterSpacing: '0.04em',
         },
       },
     },
@@ -48,10 +49,10 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: 'none',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
-          backgroundColor: 'rgba(5, 5, 16, 0.75)',
-          borderBottom: '1px solid rgba(124, 58, 237, 0.2)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          backgroundColor: 'rgba(2, 2, 8, 0.85)',
+          borderBottom: '1px solid rgba(124, 58, 237, 0.1)',
         },
       },
     },
