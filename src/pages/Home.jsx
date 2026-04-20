@@ -119,6 +119,9 @@ export default function Home() {
             paddingBottom: '12px',
             borderBottom: '1px solid rgba(124,58,237,0.15)',
             mb: 4,
+            width: 'fit-content',
+            mx: 'auto',
+            px: '24px',
           }}
         >
           {systems.map((system) => {
@@ -140,6 +143,9 @@ export default function Home() {
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   opacity: isActive ? 1 : 0.3,
+                  filter: isActive
+                    ? `drop-shadow(0 0 8px ${grad.glow})`
+                    : 'drop-shadow(0 0 3px rgba(226,232,240,0.2))',
                   cursor: 'pointer',
                   border: 'none',
                   backgroundColor: 'transparent',
