@@ -70,7 +70,14 @@ export default function CampaignCard({ campaign, systemId, index = 0 }) {
             <Typography
               variant="h6"
               component="h3"
-              sx={{ fontWeight: 700, lineHeight: 1.2, color: 'text.primary' }}
+              sx={{
+                fontWeight: 700,
+                lineHeight: 1.2,
+                background: 'linear-gradient(135deg, #f1f5f9 0%, #c084fc 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
             >
               {campaign.title}
             </Typography>
@@ -92,12 +99,12 @@ export default function CampaignCard({ campaign, systemId, index = 0 }) {
 
           {campaign.playerCharacters?.length > 0 && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 0.5 }}>
-              <PersonIcon sx={{ fontSize: 14, color: 'secondary.main', flexShrink: 0 }} />
+              <PersonIcon sx={{ fontSize: 13, color: '#7c3aed', flexShrink: 0, opacity: 0.8 }} />
               <Typography
                 variant="caption"
-                sx={{ color: 'text.secondary', fontStyle: 'italic', lineHeight: 1.4 }}
+                sx={{ color: 'rgba(148, 163, 184, 0.85)', fontStyle: 'italic', lineHeight: 1.4, letterSpacing: '0.03em' }}
               >
-                {campaign.playerCharacters.join(' · ')}
+                {campaign.playerCharacters.join('\u2004|\u2004')}
               </Typography>
             </Box>
           )}

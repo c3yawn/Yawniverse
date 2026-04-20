@@ -14,11 +14,12 @@ export default function Home() {
             variant="subtitle2"
             component="span"
             sx={{
+              fontFamily: '"Cinzel", serif',
               fontWeight: 700,
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
+              letterSpacing: '0.18em',
               color: '#a78bfa',
-              fontSize: '0.78rem',
+              fontSize: '0.72rem',
+              textShadow: '0 0 20px rgba(167, 139, 250, 0.5)',
             }}
           >
             The Yawniverse
@@ -32,21 +33,30 @@ export default function Home() {
             variant="h2"
             component="h1"
             sx={{
-              fontWeight: 700,
+              fontFamily: '"Cinzel", serif',
+              fontWeight: 900,
               mb: 2,
-              background: 'linear-gradient(135deg, #c084fc 0%, #818cf8 100%)',
+              background: 'linear-gradient(135deg, #e2c9ff 0%, #c084fc 40%, #818cf8 100%)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               fontSize: { xs: '2rem', sm: '2.75rem', md: '3.25rem' },
+              textShadow: 'none',
+              filter: 'drop-shadow(0 0 28px rgba(192, 132, 252, 0.45))',
+              letterSpacing: '0.06em',
             }}
           >
             Campaign Codex
           </Typography>
           <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ maxWidth: 400, mx: 'auto', lineHeight: 1.8, letterSpacing: '0.03em' }}
+            variant="body1"
+            sx={{
+              maxWidth: 420,
+              mx: 'auto',
+              lineHeight: 1.8,
+              letterSpacing: '0.08em',
+              color: 'rgba(148, 163, 184, 0.9)',
+            }}
           >
             A living record of every campaign across the stars and beyond.
           </Typography>
