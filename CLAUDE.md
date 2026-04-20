@@ -90,8 +90,9 @@ Current systems: D&D 5e (3 campaigns), Shadowrun 6e (2), Stars Without Number (2
 - Text primary: `#e2e8f0`, secondary: `#64748b`
 
 **Typography**:
-- **Cinzel** (serif) — hero title "Campaign Codex", navbar "The Yawniverse", display-only
-- **Raleway** (sans) — everything else
+- **Uncial Antiqua** (serif) — hero title "The Infinite Archive" only (single-weight, display-only)
+- **Cinzel** (serif) — navbar "The Yawniverse" and quote attribution
+- **Raleway** (sans) — everything else, including quote body text (italic weight loaded)
 - Hero title: gradient `#e2c9ff → #c084fc → #818cf8`, `filter: drop-shadow` purple glow
 - Card titles: gradient `#f1f5f9 → #c084fc`
 - System section headers: overline + gradient fade-line rule (no plain Divider)
