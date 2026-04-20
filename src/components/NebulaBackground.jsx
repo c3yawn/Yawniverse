@@ -18,8 +18,8 @@ export default function NebulaBackground() {
           display: 'block',
         }}
       >
-        <source src="/nebula.webm" type="video/webm" />
-        <source src="/nebula.mp4" type="video/mp4" />
+        <source src={`${import.meta.env.BASE_URL}nebula.webm`} type="video/webm" />
+        <source src={`${import.meta.env.BASE_URL}nebula.mp4`} type="video/mp4" />
       </Box>
       <Box
         sx={{
