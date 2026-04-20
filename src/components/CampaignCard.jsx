@@ -29,7 +29,6 @@ export default function CampaignCard({ campaign, systemId, index = 0 }) {
   return (
     <Card
       sx={{
-        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: 'background.paper',
@@ -42,7 +41,7 @@ export default function CampaignCard({ campaign, systemId, index = 0 }) {
     >
       <CardActionArea
         onClick={() => navigate(`/campaign/${systemId}/${campaign.id}`)}
-        sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
       >
         {campaign.image ? (
           <CardMedia
