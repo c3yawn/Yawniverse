@@ -6,10 +6,10 @@ A personal TTRPG campaign tracker for the user (last name: Yawn). Branded "The Y
 ---
 
 ## Stack
-- **React 18** + **Vite** (JavaScript, not TypeScript)
-- **MUI v5** + Emotion
-- **React Router v6** — `BrowserRouter` with `basename={import.meta.env.BASE_URL}`
-- **Google Fonts** — Raleway (body) + Cinzel (display headings)
+- **React 19** + **Vite 8** (JavaScript, not TypeScript)
+- **MUI v9** + Emotion
+- **React Router v7** — `BrowserRouter` with `basename={import.meta.env.BASE_URL}`
+- **Google Fonts** — Uncial Antiqua (hero title) + Cinzel (display) + Raleway (body, italic axis loaded)
 - Deployed via **GitHub Actions** → **GitHub Pages** at `c3yawn.github.io/Campaigns`
 
 ---
@@ -75,7 +75,7 @@ export const systems = [
   },
 ];
 ```
-Current systems: D&D 5e (3 campaigns), Shadowrun 6e (2), Stars Without Number (2).
+Current systems array order: **Stars Without Number** (2), **D&D 5e** (3), **Shadowrun 6e** (2). Array order = tab display order.
 
 ---
 
@@ -95,13 +95,17 @@ Current systems: D&D 5e (3 campaigns), Shadowrun 6e (2), Stars Without Number (2
 - **Raleway** (sans) — everything else, including quote body text (italic weight loaded)
 - Hero title: gradient `#e2c9ff → #c084fc → #818cf8`, `filter: drop-shadow` purple glow
 - Card titles: gradient `#f1f5f9 → #c084fc`
-- System section headers: overline + gradient fade-line rule (no plain Divider)
+- System names: **tab bar** in `Home.jsx` (not headers in SystemSection — those were removed)
+- Tab bar: Cinzel, 0.68rem, centered (`width: fit-content`, `mx: auto`), bottom border spans only tab width
+- Tab gradients: SWN = `#a78bfa→#38bdf8→#2dd4bf`, D&D = `#d4af37→#8b1c2a`, Shadowrun = `#ff6eb4→#a855f7→#22d3ee`
+- Tab states: inactive = 0.78 opacity + subtle neutral glow; active = 1.0 opacity + color-matched `drop-shadow` glow + `::after` underline
 
 **Cards**:
 - Glassmorphism, `border: 1px solid rgba(124, 58, 237, 0.12)`
 - Hover: purple/blue glow `box-shadow` + `translateY(-3px)`
 - Placeholder image area: layered radial gradients (purple/blue/teal)
 - Status chips: green=Active, amber=On Hiatus, grey=Completed
+- Equal-width columns (`size={{ xs: 12, sm: 6, md: 4 }}` MUI v9 API), centered (`justifyContent: center`), auto-height (no `height: '100%'`)
 
 **Background**:
 - `public/nebula.mp4` — native `<video autoPlay loop muted playsInline>` (not Box component="video", not GIF)
@@ -136,3 +140,6 @@ Current systems: D&D 5e (3 campaigns), Shadowrun 6e (2), Stars Without Number (2
 - Binary file workflow: user uploads to GitHub root via web UI → Claude pulls, moves to `public/`, commits
 - GitHub Pages environment blocks workflow-level env vars from the deploy job — must set `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` on the deploy job directly too
 - `cp dist/index.html dist/404.html` must stay in the workflow for React Router deep links to work
+- MUI v9 Grid API: use `size={{ xs, sm, md }}` on items — legacy `item xs sm md` props are removed
+- `SYSTEM_GRADIENTS` in `Home.jsx` maps system IDs to gradient configs — add an entry here whenever a new system is added to `campaigns.js` or the page will fall back to `DEFAULT_GRADIENT`
+- `useState(systems[0].id)` drives active tab — array order in `campaigns.js` determines the default
