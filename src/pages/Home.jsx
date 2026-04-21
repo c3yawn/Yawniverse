@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AppBar, Box, Container, Toolbar, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import NebulaBackground from '../components/NebulaBackground';
 import SystemSection from '../components/SystemSection';
 import { systems } from '../data/campaigns';
@@ -35,25 +35,6 @@ export default function Home() {
   return (
     <>
       <NebulaBackground />
-
-      <AppBar position="sticky" elevation={0}>
-        <Toolbar>
-          <Typography
-            variant="subtitle2"
-            component="span"
-            sx={{
-              fontFamily: '"Cinzel", serif',
-              fontWeight: 700,
-              letterSpacing: '0.18em',
-              color: '#a78bfa',
-              fontSize: '0.72rem',
-              textShadow: '0 0 20px rgba(167, 139, 250, 0.5)',
-            }}
-          >
-            The Yawniverse
-          </Typography>
-        </Toolbar>
-      </AppBar>
 
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Box sx={{ mb: 8, textAlign: 'center' }}>
