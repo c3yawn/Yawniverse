@@ -106,14 +106,45 @@ export default function ProjectCard({ project }) {
       >
         <Box
           sx={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius: '14px',
+            overflow: 'hidden',
+            pointerEvents: 'none',
+            zIndex: 0,
+          }}
+        >
+          {STARS.map((s, i) => (
+            <Box
+              key={i}
+              sx={{
+                position: 'absolute',
+                width: s.w,
+                height: s.w,
+                top: s.top,
+                left: s.left,
+                background: 'white',
+                borderRadius: '50%',
+                animation: `${twinkle} ${s.dur} ease-in-out infinite ${s.delay}`,
+                opacity: Number(s.op),
+                '--base-op': s.op,
+              }}
+            />
+          ))}
+        </Box>
+
+        <Box
+          sx={{
             height: '3px',
             background: project.gradient,
             borderRadius: '14px 14px 0 0',
             filter: `drop-shadow(0 0 8px ${project.glow})`,
+            position: 'relative',
+            zIndex: 1,
           }}
         />
 
-        <CardContent sx={{ p: 3, pb: '20px !important' }}>
+        <CardContent sx={{ p: 3, pb: '20px !important', position: 'relative', zIndex: 1 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
             <Typography
               variant="h6"
