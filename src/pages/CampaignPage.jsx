@@ -24,7 +24,7 @@ import { useCampaignMember } from '../hooks/useCampaignMember';
 import { useCampaignMap } from '../hooks/useCampaignMap';
 
 const STATUS_COLORS = { Active: 'success', 'On Hiatus': 'warning', Completed: 'default' };
-const NAVBAR_HEIGHT = 64;
+const NAVBAR_HEIGHT = 52;
 
 export default function CampaignPage() {
   const { systemId, campaignId } = useParams();

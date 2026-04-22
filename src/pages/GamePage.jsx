@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 
 const PhaserGame = lazy(() => import('../game/PhaserGame.jsx'));
 
-const NAVBAR_HEIGHT = 64;
+const NAVBAR_HEIGHT = 52;
 
 export default function GamePage() {
   const { user, loading } = useAuth();

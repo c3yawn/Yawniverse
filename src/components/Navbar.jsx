@@ -31,7 +31,7 @@ export default function Navbar() {
               fontWeight: 700,
               letterSpacing: '0.18em',
               color: '#a78bfa',
-              fontSize: '0.72rem',
+              fontSize: '0.92rem',
               textShadow: '0 0 20px rgba(167, 139, 250, 0.5)',
               flexGrow: 1,
               cursor: showAuth ? 'pointer' : 'default',
