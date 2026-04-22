@@ -275,6 +275,8 @@ export default function JoinCampaignFlow({ open, onClose, campaign, systemId }) 
   const navigate = useNavigate();
   const systemConfig = getSystem(systemId);
 
+  const isGM = campaign.gmEmails?.includes(user?.email);
+
   const initialData = useMemo(
     () => (systemConfig ? buildInitialData(systemConfig.characterSheet.sections) : {}),
     [systemConfig],
@@ -300,6 +302,31 @@ export default function JoinCampaignFlow({ open, onClose, campaign, systemId }) 
     return null;
   };
 
+  const joinAsGM = async () => {
+    setSubmitting(true);
+    setError(null);
+
+    await supabase.from('profiles').upsert({
+      id: user.id,
+      display_name: user.user_metadata?.full_name ?? user.email?.split('@')[0] ?? 'GM',
+      avatar_url: user.user_metadata?.avatar_url ?? null,
+    }, { onConflict: 'id' });
+
+    const { error: memberError } = await supabase
+      .from('campaign_members')
+      .insert({ campaign_id: campaign.id, user_id: user.id, role: 'gm' });
+
+    if (memberError && memberError.code !== '23505') {
+      setError('Could not join campaign. Please try again.');
+      setSubmitting(false);
+      return;
+    }
+
+    setSubmitting(false);
+    onClose();
+    navigate(`/campaigns/${systemId}/${campaign.id}`);
+  };
+
   const handleSubmit = async () => {
     const validationError = validate();
     if (validationError) {
@@ -317,12 +344,11 @@ export default function JoinCampaignFlow({ open, onClose, campaign, systemId }) 
       avatar_url: user.user_metadata?.avatar_url ?? null,
     }, { onConflict: 'id' });
 
-    const role = campaign.gmEmails?.includes(user.email) ? 'gm' : 'player';
     const characterName = formData['name'] || 'Unknown';
 
     const { error: memberError } = await supabase
       .from('campaign_members')
-      .insert({ campaign_id: campaign.id, user_id: user.id, role });
+      .insert({ campaign_id: campaign.id, user_id: user.id, role: 'player' });
 
     if (memberError && memberError.code !== '23505') {
       setError('Could not join campaign. Please try again.');
@@ -352,6 +378,55 @@ export default function JoinCampaignFlow({ open, onClose, campaign, systemId }) 
   };
 
   if (!systemConfig) return null;
+
+  // GM skips the character sheet — just a confirmation dialog
+  if (isGM) {
+    return (
+      <Dialog
+        open={open}
+        onClose={submitting ? undefined : onClose}
+        maxWidth="xs"
+        fullWidth
+        PaperProps={{
+          sx: {
+            backgroundColor: 'background.paper',
+            backgroundImage: 'none',
+            border: '1px solid rgba(124,58,237,0.2)',
+          },
+        }}
+      >
+        <DialogTitle sx={{ fontFamily: '"Cinzel", serif', letterSpacing: '0.1em', pb: 1 }}>
+          Enter as GM
+        </DialogTitle>
+        <DialogContent>
+          {error && <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError(null)}>{error}</Alert>}
+          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
+            You're recognised as the Game Master for <strong style={{ color: '#e2e8f0' }}>{campaign.title}</strong>.
+            You'll have access to the party view and map editing tools.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
+          <Button onClick={onClose} disabled={submitting} sx={{ color: 'text.secondary' }}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            onClick={joinAsGM}
+            disabled={submitting}
+            sx={{
+              background: 'linear-gradient(135deg, #7c3aed, #0ea5e9)',
+              fontFamily: '"Cinzel", serif',
+              letterSpacing: '0.1em',
+              fontSize: '0.75rem',
+              '&:hover': { background: 'linear-gradient(135deg, #6d28d9, #0284c7)' },
+            }}
+          >
+            {submitting ? <CircularProgress size={18} color="inherit" /> : 'Enter the Campaign'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog
