@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import NebulaBackground from '../components/NebulaBackground';
 import SystemSection from '../components/SystemSection';
 import { systems } from '../data/campaigns';
+import { useAuth } from '../context/AuthContext';
+import { useCampaignCharacters } from '../hooks/useCampaignCharacters';
+import { useUserMemberships } from '../hooks/useUserMemberships';
 
 const SYSTEM_GRADIENTS = {
   swn: {
@@ -28,9 +31,15 @@ const DEFAULT_GRADIENT = {
   glow: 'rgba(167,139,250,0.4)',
 };
 
+const allCampaignIds = systems.flatMap((s) => s.campaigns.map((c) => c.id));
+
 export default function CampaignsHub() {
   const [activeSystemId, setActiveSystemId] = useState(systems[0].id);
   const activeSystem = systems.find((s) => s.id === activeSystemId);
+
+  const { user } = useAuth();
+  const { charactersByCampaign } = useCampaignCharacters(allCampaignIds);
+  const { memberCampaignIds } = useUserMemberships(user?.id ?? null);
 
   return (
     <>
@@ -60,7 +69,7 @@ export default function CampaignsHub() {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
               <Box sx={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(124,58,237,0.4))' }} />
               <Typography sx={{ fontFamily: 'Georgia, serif', fontSize: '1.8rem', color: 'rgba(167,139,250,0.35)', lineHeight: 1 }}>
-                {'“'}
+                {'"'}
               </Typography>
               <Box sx={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, rgba(124,58,237,0.4), transparent)' }} />
             </Box>
@@ -153,7 +162,13 @@ export default function CampaignsHub() {
           })}
         </Box>
 
-        {activeSystem && <SystemSection system={activeSystem} />}
+        {activeSystem && (
+          <SystemSection
+            system={activeSystem}
+            memberCampaignIds={memberCampaignIds}
+            charactersByCampaign={charactersByCampaign}
+          />
+        )}
       </Container>
     </>
   );
