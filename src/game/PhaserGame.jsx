@@ -8,7 +8,9 @@ export default function PhaserGame() {
   useEffect(() => {
     let cancelled = false;
 
-    import('phaser').then((Phaser) => {
+    import('phaser').then((mod) => {
+      const Phaser = mod.default ?? mod;
+      window.Phaser = Phaser;
       import('./config.js').then(({ buildConfig }) => {
         if (cancelled || !containerRef.current) return;
 
