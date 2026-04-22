@@ -12,7 +12,7 @@ export default function PhaserGame() {
       import('./config.js').then(({ buildConfig }) => {
         if (cancelled || !containerRef.current) return;
 
-        const config = buildConfig(containerRef.current);
+        const config = buildConfig(containerRef.current, Phaser);
         gameRef.current = new Phaser.Game(config);
       });
     });

@@ -3,7 +3,7 @@ import PreloadScene from './scenes/PreloadScene.js';
 import GameScene from './scenes/GameScene.js';
 import UIScene from './scenes/UIScene.js';
 
-export function buildConfig(parent) {
+export function buildConfig(parent, Phaser) {
   return {
     type: Phaser.AUTO,
     parent,
