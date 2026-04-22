@@ -47,16 +47,39 @@ export default function GamePage() {
   }
 
   return (
-    <Box sx={{ height: `calc(100vh - ${NAVBAR_HEIGHT}px)`, overflow: 'hidden', position: 'relative' }}>
-      <Suspense
-        fallback={
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-            <CircularProgress sx={{ color: '#7c3aed' }} />
-          </Box>
-        }
+    <>
+      <NebulaBackground />
+      <Box
+        sx={{
+          height: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+        }}
       >
-        <PhaserGame />
-      </Suspense>
-    </Box>
+        <Box
+          sx={{
+            width: 'min(960px, calc(100vw - 32px))',
+            height: `min(600px, calc(100vh - ${NAVBAR_HEIGHT}px - 32px))`,
+            borderRadius: '12px',
+            overflow: 'hidden',
+            border: '1px solid rgba(124, 58, 237, 0.25)',
+            boxShadow: '0 0 60px rgba(124, 58, 237, 0.15), 0 0 0 1px rgba(124, 58, 237, 0.08)',
+            position: 'relative',
+          }}
+        >
+          <Suspense
+            fallback={
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', background: '#020208' }}>
+                <CircularProgress sx={{ color: '#7c3aed' }} />
+              </Box>
+            }
+          >
+            <PhaserGame />
+          </Suspense>
+        </Box>
+      </Box>
+    </>
   );
 }

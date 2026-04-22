@@ -34,7 +34,7 @@ export default function PhaserGame() {
       sx={{
         width: '100%',
         height: '100%',
-        '& canvas': { display: 'block' },
+        '& canvas': { display: 'block', width: '100% !important', height: '100% !important' },
       }}
     />
   );
