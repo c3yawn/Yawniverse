@@ -17,6 +17,7 @@ import CampaignChat from '../components/CampaignChat';
 import PartyDrawer from '../components/PartyDrawer';
 import CampaignMap from '../components/maps/CampaignMap';
 import JoinCampaignFlow from '../components/JoinCampaignFlow';
+import GMPanel from '../components/GMPanel';
 import { systems } from '../data/campaigns';
 import { useAuth } from '../context/AuthContext';
 import { useCampaignMember } from '../hooks/useCampaignMember';
@@ -181,12 +182,12 @@ export default function CampaignPage() {
     <Box sx={{ display: { xs: 'none', md: 'flex' }, flex: 1, overflow: 'hidden', position: 'relative' }}>
       {notMemberOverlay}
 
-      {/* Left: Character Sheet */}
+      {/* Left: GM Panel or Character Sheet */}
       <Box
         sx={{
           width: 290,
           flexShrink: 0,
-          overflowY: 'auto',
+          overflowY: isGM ? 'hidden' : 'auto',
           borderRight: '1px solid rgba(124,58,237,0.12)',
           background: 'rgba(1,1,6,0.4)',
         }}
@@ -195,6 +196,13 @@ export default function CampaignPage() {
           <Box sx={{ display: 'flex', justifyContent: 'center', pt: 6 }}>
             <CircularProgress size={24} sx={{ color: '#7c3aed' }} />
           </Box>
+        ) : isGM ? (
+          <GMPanel
+            campaignId={campaignId}
+            systemId={systemId}
+            mapData={mapData}
+            onUpdateMap={updateMap}
+          />
         ) : (
           <CharacterSheet character={character} systemId={systemId} onUpdate={updateCharacter} />
         )}
@@ -248,15 +256,26 @@ export default function CampaignPage() {
           '& .MuiTabs-indicator': { background: 'linear-gradient(90deg, #7c3aed, #0ea5e9)' },
         }}
       >
-        <Tab label="Character" />
+        <Tab label={isGM ? 'GM Panel' : 'Character'} />
         <Tab label="Map" />
         <Tab label="Chat" />
       </Tabs>
 
       <Box sx={{ flex: 1, overflow: 'hidden' }}>
         {mobileTab === 0 && (
-          <Box sx={{ height: '100%', overflowY: 'auto' }}>
-            <CharacterSheet character={character} systemId={systemId} onUpdate={updateCharacter} />
+          <Box sx={{ height: '100%', overflow: 'hidden' }}>
+            {isGM ? (
+              <GMPanel
+                campaignId={campaignId}
+                systemId={systemId}
+                mapData={mapData}
+                onUpdateMap={updateMap}
+              />
+            ) : (
+              <Box sx={{ height: '100%', overflowY: 'auto' }}>
+                <CharacterSheet character={character} systemId={systemId} onUpdate={updateCharacter} />
+              </Box>
+            )}
           </Box>
         )}
         {mobileTab === 1 && (
