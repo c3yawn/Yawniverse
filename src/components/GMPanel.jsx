@@ -133,6 +133,31 @@ export default function GMPanel({ campaignId, systemId, mapData, onUpdateMap }) 
   useEffect(() => { fetchCharacters(); }, [campaignId]);
 
   useEffect(() => {
+    if (!campaignId) return;
+
+    const channel = supabase
+      .channel(`party:${campaignId}`)
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'characters', filter: `campaign_id=eq.${campaignId}` },
+        (payload) => setCharacters((prev) => [...prev, payload.new]),
+      )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'characters', filter: `campaign_id=eq.${campaignId}` },
+        (payload) => setCharacters((prev) => prev.map((c) => c.id === payload.new.id ? payload.new : c)),
+      )
+      .on(
+        'postgres_changes',
+        { event: 'DELETE', schema: 'public', table: 'characters', filter: `campaign_id=eq.${campaignId}` },
+        (payload) => setCharacters((prev) => prev.filter((c) => c.id !== payload.old.id)),
+      )
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, [campaignId]);
+
+  useEffect(() => {
     if (!notesInitialized.current && mapData !== null) {
       setNotes(mapData?.notes ?? '');
       notesInitialized.current = true;
