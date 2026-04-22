@@ -310,8 +310,15 @@ export default function JoinCampaignFlow({ open, onClose, campaign, systemId }) 
     setSubmitting(true);
     setError(null);
 
+    // Upsert profile so chat display names are available
+    await supabase.from('profiles').upsert({
+      id: user.id,
+      display_name: user.user_metadata?.full_name ?? user.email?.split('@')[0] ?? 'Adventurer',
+      avatar_url: user.user_metadata?.avatar_url ?? null,
+    }, { onConflict: 'id' });
+
     const role = campaign.gmEmails?.includes(user.email) ? 'gm' : 'player';
-    const characterName = formData['name'] || formData['street_name'] || 'Unknown';
+    const characterName = formData['name'] || 'Unknown';
 
     const { error: memberError } = await supabase
       .from('campaign_members')
