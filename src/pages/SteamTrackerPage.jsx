@@ -1,3 +1,4 @@
+import { keyframes } from '@emotion/react';
 import { useMemo, useState } from 'react';
 import {
   Box,
@@ -20,19 +21,25 @@ import {
   Typography,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import SearchIcon from '@mui/icons-material/Search';
+
+const trophyGlow = keyframes`
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(251,191,36,0.7)) drop-shadow(0 0 7px rgba(251,191,36,0.3)); }
+  50%       { filter: drop-shadow(0 0 7px rgba(251,191,36,1.0)) drop-shadow(0 0 14px rgba(251,191,36,0.55)); }
+`;
 import NebulaBackground from '../components/NebulaBackground';
 import { useSteamTracker } from '../hooks/useSteamTracker';
 
 const STATUS = {
   in_progress: { label: 'Playing Now', bg: 'rgba(14,165,233,0.12)',  color: '#0ea5e9', border: 'rgba(14,165,233,0.3)'  },
-  queue:       { label: 'In Queue',    bg: 'rgba(245,158,11,0.12)',  color: '#f59e0b', border: 'rgba(245,158,11,0.3)'  },
+  queue:       { label: 'Up Next',     bg: 'rgba(245,158,11,0.12)',  color: '#f59e0b', border: 'rgba(245,158,11,0.3)'  },
   completed:   { label: 'Completed',   bg: 'rgba(16,185,129,0.12)',  color: '#10b981', border: 'rgba(16,185,129,0.3)'  },
 };
 
 const TABS = ['all', 'playing', 'queue', 'completed'];
-const TAB_LABELS = ['All', 'Playing Now', 'In Queue', 'Completed'];
+const TAB_LABELS = ['All', 'Playing Now', 'Up Next', 'Completed'];
 
 function iconUrl(appId, hash) {
   if (!hash) return null;
@@ -149,7 +156,7 @@ export default function SteamTrackerPage() {
           {[
             { ...STATUS.completed,   label: 'Completed',   count: stats.completed },
             { ...STATUS.in_progress, label: 'Playing Now', count: stats.playing   },
-            { ...STATUS.queue,       label: 'In Queue',    count: stats.queue     },
+            { ...STATUS.queue,       label: 'Up Next',     count: stats.queue     },
           ].map(({ label, count, bg, color, border }) => (
             <Box
               key={label}
@@ -360,6 +367,14 @@ export default function SteamTrackerPage() {
                       {/* Game */}
                       <TableCell sx={{ py: 1.5 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                          {game.completed && (
+                            <EmojiEventsIcon sx={{
+                              fontSize: 15,
+                              color: '#fbbf24',
+                              flexShrink: 0,
+                              animation: `${trophyGlow} 2.2s ease-in-out infinite`,
+                            }} />
+                          )}
                           <GameIcon appId={game.appid} hash={game.img_icon_url} />
                           <Typography sx={{ fontSize: '0.85rem', color: '#e2e8f0', fontWeight: 500 }}>
                             {game.name}
@@ -412,7 +427,7 @@ export default function SteamTrackerPage() {
                           ) : game.status === 'in_progress' ? (
                             <>
                               <StatusChip statusKey="in_progress" />
-                              <ActionChip label="→ Queue" color="queue" onClick={() => setStatus(game.appid, 'queue', game.name, game.img_icon_url)} />
+                              <ActionChip label="→ Up Next" color="queue" onClick={() => setStatus(game.appid, 'queue', game.name, game.img_icon_url)} />
                               <Tooltip title="Remove">
                                 <IconButton
                                   size="small"
@@ -439,8 +454,8 @@ export default function SteamTrackerPage() {
                             </>
                           ) : (
                             <>
-                              <ActionChip label="▶ Playing" color="in_progress" onClick={() => setStatus(game.appid, 'in_progress', game.name, game.img_icon_url)} />
-                              <ActionChip label="+ Queue" color="queue" onClick={() => setStatus(game.appid, 'queue', game.name, game.img_icon_url)} />
+                              <ActionChip label="▶ Playing Now" color="in_progress" onClick={() => setStatus(game.appid, 'in_progress', game.name, game.img_icon_url)} />
+                              <ActionChip label="+ Up Next" color="queue" onClick={() => setStatus(game.appid, 'queue', game.name, game.img_icon_url)} />
                             </>
                           )}
                         </Box>
