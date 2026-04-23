@@ -61,7 +61,9 @@ export function useSteamTracker() {
       } else {
         try {
           const data = await steamProxy('getOwnedGames');
-          games = (data?.response?.games ?? []).sort((a, b) => a.name.localeCompare(b.name));
+          games = (data?.response?.games ?? [])
+            .filter(g => g.has_community_visible_stats)
+            .sort((a, b) => a.name.localeCompare(b.name));
           writeCache(LIB_CACHE_KEY, { data: games, ts: Date.now() });
         } catch (err) {
           if (!cancelled) { setError(err.message); setLoadingLibrary(false); }
@@ -161,7 +163,7 @@ export function useSteamTracker() {
   }, []);
 
   const games = useMemo(() =>
-    library.map(g => {
+    library.filter(g => achMap[g.appid] !== null).map(g => {
       const ach = g.appid in achMap ? achMap[g.appid] : undefined;
       const status = statuses[g.appid] ?? null;
       const completed = ach != null && ach.total > 0 && ach.achieved === ach.total;
