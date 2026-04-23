@@ -31,6 +31,7 @@ const trophyGlow = keyframes`
 `;
 import NebulaBackground from '../components/NebulaBackground';
 import { useSteamTracker } from '../hooks/useSteamTracker';
+import { useAuth } from '../context/AuthContext';
 
 const STATUS = {
   in_progress: { label: 'Playing Now', bg: 'rgba(14,165,233,0.12)',  color: '#0ea5e9', border: 'rgba(14,165,233,0.3)'  },
@@ -97,6 +98,7 @@ function ActionChip({ label, color, onClick }) {
 
 export default function SteamTrackerPage() {
   const { games, loadingLibrary, achProgress, error, setStatus, refresh } = useSteamTracker();
+  const { user } = useAuth();
   const [tab, setTab] = useState('all');
   const [search, setSearch] = useState('');
 
@@ -427,37 +429,41 @@ export default function SteamTrackerPage() {
                           ) : game.status === 'in_progress' ? (
                             <>
                               <StatusChip statusKey="in_progress" />
-                              <ActionChip label="→ Up Next" color="queue" onClick={() => setStatus(game.appid, 'queue', game.name, game.img_icon_url)} />
-                              <Tooltip title="Remove">
-                                <IconButton
-                                  size="small"
-                                  onClick={() => setStatus(game.appid, null, game.name, game.img_icon_url)}
-                                  sx={{ color: 'rgba(148,163,184,0.25)', p: 0.25, '&:hover': { color: '#ef4444', bgcolor: 'rgba(239,68,68,0.08)' } }}
-                                >
-                                  <CloseIcon sx={{ fontSize: 13 }} />
-                                </IconButton>
-                              </Tooltip>
+                              {user && <ActionChip label="→ Up Next" color="queue" onClick={() => setStatus(game.appid, 'queue', game.name, game.img_icon_url)} />}
+                              {user && (
+                                <Tooltip title="Remove">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => setStatus(game.appid, null, game.name, game.img_icon_url)}
+                                    sx={{ color: 'rgba(148,163,184,0.25)', p: 0.25, '&:hover': { color: '#ef4444', bgcolor: 'rgba(239,68,68,0.08)' } }}
+                                  >
+                                    <CloseIcon sx={{ fontSize: 13 }} />
+                                  </IconButton>
+                                </Tooltip>
+                              )}
                             </>
                           ) : game.status === 'queue' ? (
                             <>
                               <StatusChip statusKey="queue" />
-                              <ActionChip label="▶ Start" color="in_progress" onClick={() => setStatus(game.appid, 'in_progress', game.name, game.img_icon_url)} />
-                              <Tooltip title="Remove">
-                                <IconButton
-                                  size="small"
-                                  onClick={() => setStatus(game.appid, null, game.name, game.img_icon_url)}
-                                  sx={{ color: 'rgba(148,163,184,0.25)', p: 0.25, '&:hover': { color: '#ef4444', bgcolor: 'rgba(239,68,68,0.08)' } }}
-                                >
-                                  <CloseIcon sx={{ fontSize: 13 }} />
-                                </IconButton>
-                              </Tooltip>
+                              {user && <ActionChip label="▶ Start" color="in_progress" onClick={() => setStatus(game.appid, 'in_progress', game.name, game.img_icon_url)} />}
+                              {user && (
+                                <Tooltip title="Remove">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => setStatus(game.appid, null, game.name, game.img_icon_url)}
+                                    sx={{ color: 'rgba(148,163,184,0.25)', p: 0.25, '&:hover': { color: '#ef4444', bgcolor: 'rgba(239,68,68,0.08)' } }}
+                                  >
+                                    <CloseIcon sx={{ fontSize: 13 }} />
+                                  </IconButton>
+                                </Tooltip>
+                              )}
                             </>
-                          ) : (
+                          ) : user ? (
                             <>
                               <ActionChip label="▶ Playing Now" color="in_progress" onClick={() => setStatus(game.appid, 'in_progress', game.name, game.img_icon_url)} />
                               <ActionChip label="+ Up Next" color="queue" onClick={() => setStatus(game.appid, 'queue', game.name, game.img_icon_url)} />
                             </>
-                          )}
+                          ) : null}
                         </Box>
                       </TableCell>
                     </TableRow>
