@@ -29,6 +29,24 @@ const trophyGlow = keyframes`
   0%, 100% { filter: drop-shadow(0 0 3px rgba(251,191,36,0.7)) drop-shadow(0 0 7px rgba(251,191,36,0.3)); }
   50%       { filter: drop-shadow(0 0 7px rgba(251,191,36,1.0)) drop-shadow(0 0 14px rgba(251,191,36,0.55)); }
 `;
+
+const titleSweep = keyframes`
+  0%   { background-position: 0% 0%; }
+  50%  { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+`;
+
+const titleGlow = keyframes`
+  0%,100% { filter: drop-shadow(0 0 6px rgba(34,211,238,0.45)) drop-shadow(0 0 20px rgba(59,130,246,0.2)); }
+  33%     { filter: drop-shadow(0 0 10px rgba(59,130,246,0.55)) drop-shadow(0 0 26px rgba(16,185,129,0.22)); }
+  66%     { filter: drop-shadow(0 0 8px rgba(16,185,129,0.5))  drop-shadow(0 0 22px rgba(34,211,238,0.2)); }
+`;
+
+const ruleSweep = keyframes`
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
 import NebulaBackground from '../components/NebulaBackground';
 import { useSteamTracker } from '../hooks/useSteamTracker';
 import { useAuth } from '../context/AuthContext';
@@ -134,20 +152,34 @@ export default function SteamTrackerPage() {
             variant="h2"
             component="h1"
             sx={{
-              fontFamily: '"Uncial Antiqua", serif',
+              fontFamily: '"Audiowide", sans-serif',
               fontWeight: 400,
-              mb: 1.5,
-              background: 'linear-gradient(135deg, #22d3ee 0%, #3b82f6 55%, #10b981 100%)',
+              mb: 0.5,
+              background: 'linear-gradient(135deg, #22d3ee, #3b82f6, #10b981, #22d3ee)',
+              backgroundSize: '300% 300%',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              fontSize: { xs: '1.75rem', sm: '2.3rem', md: '2.75rem' },
-              filter: 'drop-shadow(0 0 24px rgba(34,211,238,0.35))',
-              letterSpacing: '0.02em',
+              fontSize: { xs: '1.4rem', sm: '1.9rem', md: '2.2rem' },
+              letterSpacing: '0.04em',
+              animation: `${titleSweep} 9s ease-in-out infinite, ${titleGlow} 9s ease-in-out infinite`,
             }}
           >
             Steam Achievement Tracker
           </Typography>
+          <Box
+            sx={{
+              height: '1px',
+              background: 'linear-gradient(90deg, transparent, #22d3ee, #3b82f6, #10b981, transparent)',
+              backgroundSize: '200% 100%',
+              animation: `${ruleSweep} 9s ease-in-out infinite`,
+              opacity: 0.35,
+              borderRadius: '1px',
+              mb: 1.5,
+              mx: 'auto',
+              width: { xs: '80%', sm: '60%', md: '50%' },
+            }}
+          />
           <Typography sx={{ color: 'rgba(148,163,184,0.6)', fontSize: '0.83rem', letterSpacing: '0.05em' }}>
             Track your journey to 100% completion
           </Typography>
