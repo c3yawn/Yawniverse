@@ -1,7 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from '../lib/supabase';
 
 const PROXY_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/steam-proxy`;
+const LIB_CACHE_KEY = 'steam_lib_v1';
+const ACH_CACHE_KEY = 'steam_ach_v1';
+const LIB_TTL = 60 * 60 * 1000;
+const ACH_TTL = 24 * 60 * 60 * 1000;
+const ACH_BATCH = 10;
 
 async function steamProxy(action, params = {}) {
   const url = new URL(PROXY_URL);
@@ -15,132 +20,156 @@ async function steamProxy(action, params = {}) {
   return data;
 }
 
+function readCache(key) {
+  try { return JSON.parse(localStorage.getItem(key) ?? 'null'); } catch { return null; }
+}
+function writeCache(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
+}
+
 export function useSteamTracker() {
-  const [trackedGames, setTrackedGames] = useState([]);
-  const [achievements, setAchievements] = useState({});
   const [library, setLibrary] = useState([]);
-  const [loadingTracked, setLoadingTracked] = useState(true);
-  const [loadingLibrary, setLoadingLibrary] = useState(false);
+  const [achMap, setAchMap] = useState({});
+  const [statuses, setStatuses] = useState({});
+  const [loadingLibrary, setLoadingLibrary] = useState(true);
+  const [achProgress, setAchProgress] = useState({ loaded: 0, total: 0 });
   const [error, setError] = useState(null);
-  const fetchedIds = useRef(new Set());
-
-  const fetchTracked = useCallback(async () => {
-    setLoadingTracked(true);
-    const { data, error: err } = await supabase
-      .from('steam_game_status')
-      .select('*')
-      .order('added_at', { ascending: false });
-    if (err) setError(err.message);
-    else setTrackedGames(data ?? []);
-    setLoadingTracked(false);
-  }, []);
-
-  useEffect(() => { fetchTracked(); }, [fetchTracked]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    const toFetch = trackedGames
-      .map((g) => g.app_id)
-      .filter((id) => !fetchedIds.current.has(id));
-    if (!toFetch.length) return;
-    toFetch.forEach((id) => fetchedIds.current.add(id));
+    let cancelled = false;
+    setLibrary([]);
+    setAchMap({});
+    setAchProgress({ loaded: 0, total: 0 });
+    setLoadingLibrary(true);
+    setError(null);
 
-    Promise.allSettled(
-      toFetch.map(async (appId) => {
+    async function init() {
+      const { data: rows } = await supabase
+        .from('steam_game_status')
+        .select('app_id, status');
+      if (!cancelled && rows) {
+        const map = {};
+        for (const r of rows) map[r.app_id] = r.status;
+        setStatuses(map);
+      }
+
+      const libCache = readCache(LIB_CACHE_KEY);
+      let games;
+      if (libCache && (Date.now() - libCache.ts) < LIB_TTL) {
+        games = libCache.data;
+      } else {
         try {
-          const data = await steamProxy('getAchievements', { appid: appId });
-          const list = data?.playerstats?.achievements ?? [];
-          return [appId, list.length === 0
-            ? null
-            : { total: list.length, achieved: list.filter((a) => a.achieved === 1).length }
-          ];
-        } catch {
-          return [appId, null];
-        }
-      })
-    ).then((results) => {
-      const updates = {};
-      for (const r of results) {
-        if (r.status === 'fulfilled') {
-          const [id, ach] = r.value;
-          updates[id] = ach;
+          const data = await steamProxy('getOwnedGames');
+          games = (data?.response?.games ?? []).sort((a, b) => a.name.localeCompare(b.name));
+          writeCache(LIB_CACHE_KEY, { data: games, ts: Date.now() });
+        } catch (err) {
+          if (!cancelled) { setError(err.message); setLoadingLibrary(false); }
+          return;
         }
       }
-      setAchievements((prev) => ({ ...prev, ...updates }));
-    });
-  }, [trackedGames]);
 
-  const loadLibrary = useCallback(async () => {
-    if (library.length > 0) return;
-    setLoadingLibrary(true);
-    try {
-      const data = await steamProxy('getOwnedGames');
-      const games = (data?.response?.games ?? []).sort((a, b) =>
-        a.name.localeCompare(b.name)
-      );
-      setLibrary(games);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoadingLibrary(false);
+      if (!cancelled) { setLibrary(games); setLoadingLibrary(false); }
     }
-  }, [library.length]);
 
-  const addGame = useCallback(async (appId, gameName, status, imgIconUrl) => {
-    const { error: err } = await supabase.from('steam_game_status').upsert({
-      app_id: appId,
-      game_name: gameName,
-      status,
-      img_icon_url: imgIconUrl ?? null,
-    });
-    if (err) throw err;
-    await fetchTracked();
-  }, [fetchTracked]);
+    init();
+    return () => { cancelled = true; };
+  }, [refreshKey]);
 
-  const updateStatus = useCallback(async (appId, status) => {
-    const { error: err } = await supabase
-      .from('steam_game_status')
-      .update({ status })
-      .eq('app_id', appId);
-    if (err) throw err;
-    setTrackedGames((prev) =>
-      prev.map((g) => (g.app_id === appId ? { ...g, status } : g))
-    );
+  useEffect(() => {
+    if (!library.length) return;
+    let cancelled = false;
+
+    async function fetchAll() {
+      const achCache = readCache(ACH_CACHE_KEY) ?? {};
+      const now = Date.now();
+      const preloaded = {};
+      const toFetch = [];
+
+      for (const g of library) {
+        const entry = achCache[g.appid];
+        if (entry && (now - entry.ts) < ACH_TTL) {
+          preloaded[g.appid] = entry.a === null ? null : { achieved: entry.a, total: entry.t };
+        } else {
+          toFetch.push(g.appid);
+        }
+      }
+
+      if (Object.keys(preloaded).length) setAchMap(prev => ({ ...prev, ...preloaded }));
+      let loaded = Object.keys(preloaded).length;
+      setAchProgress({ loaded, total: library.length });
+
+      for (let i = 0; i < toFetch.length; i += ACH_BATCH) {
+        if (cancelled) break;
+        const batch = toFetch.slice(i, i + ACH_BATCH);
+
+        const settled = await Promise.allSettled(
+          batch.map(async (appId) => {
+            try {
+              const data = await steamProxy('getAchievements', { appid: appId });
+              const list = data?.playerstats?.achievements ?? [];
+              return [appId, list.length === 0 ? null : {
+                achieved: list.filter(a => a.achieved === 1).length,
+                total: list.length,
+              }];
+            } catch {
+              return [appId, null];
+            }
+          })
+        );
+
+        if (cancelled) break;
+
+        const updates = {};
+        for (const r of settled) {
+          if (r.status === 'fulfilled') {
+            const [id, ach] = r.value;
+            updates[id] = ach;
+            achCache[id] = ach === null
+              ? { a: null, ts: now }
+              : { a: ach.achieved, t: ach.total, ts: now };
+            loaded++;
+          }
+        }
+
+        setAchMap(prev => ({ ...prev, ...updates }));
+        setAchProgress({ loaded, total: library.length });
+        writeCache(ACH_CACHE_KEY, achCache);
+      }
+    }
+
+    fetchAll();
+    return () => { cancelled = true; };
+  }, [library]);
+
+  const setStatus = useCallback(async (appId, status, gameName, imgIconUrl) => {
+    if (!status) {
+      await supabase.from('steam_game_status').delete().eq('app_id', appId);
+      setStatuses(prev => { const n = { ...prev }; delete n[appId]; return n; });
+    } else {
+      await supabase.from('steam_game_status').upsert({
+        app_id: appId, status, game_name: gameName, img_icon_url: imgIconUrl ?? null,
+      });
+      setStatuses(prev => ({ ...prev, [appId]: status }));
+    }
   }, []);
 
-  const removeGame = useCallback(async (appId) => {
-    const { error: err } = await supabase
-      .from('steam_game_status')
-      .delete()
-      .eq('app_id', appId);
-    if (err) throw err;
-    fetchedIds.current.delete(appId);
-    setTrackedGames((prev) => prev.filter((g) => g.app_id !== appId));
-    setAchievements((prev) => {
-      const next = { ...prev };
-      delete next[appId];
-      return next;
-    });
+  const refresh = useCallback(() => {
+    localStorage.removeItem(LIB_CACHE_KEY);
+    localStorage.removeItem(ACH_CACHE_KEY);
+    setRefreshKey(k => k + 1);
   }, []);
 
-  const loadingAchievements = trackedGames.some((g) => !(g.app_id in achievements));
+  const games = useMemo(() =>
+    library.map(g => {
+      const ach = g.appid in achMap ? achMap[g.appid] : undefined;
+      const status = statuses[g.appid] ?? null;
+      const completed = ach != null && ach.total > 0 && ach.achieved === ach.total;
+      const pct = ach != null ? Math.round((ach.achieved / ach.total) * 100) : null;
+      return { ...g, ach, status, completed, pct };
+    }),
+    [library, achMap, statuses]
+  );
 
-  const games = trackedGames.map((g) => {
-    const ach = g.app_id in achievements ? achievements[g.app_id] : undefined;
-    const completed = ach != null && ach.total > 0 && ach.achieved === ach.total;
-    const pct = ach != null ? Math.round((ach.achieved / ach.total) * 100) : null;
-    return { ...g, achievements: ach, completed, pct };
-  });
-
-  return {
-    games,
-    library,
-    loadingTracked,
-    loadingLibrary,
-    loadingAchievements,
-    error,
-    loadLibrary,
-    addGame,
-    updateStatus,
-    removeGame,
-  };
+  return { games, loadingLibrary, achProgress, error, setStatus, refresh };
 }
