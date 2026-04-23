@@ -25,7 +25,7 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import NebulaBackground from '../components/NebulaBackground';
 import { useSteamTracker } from '../hooks/useSteamTracker';
@@ -448,7 +448,7 @@ export default function SteamTrackerPage() {
                             onClick={() => removeGame(game.app_id)}
                             sx={{ color: 'rgba(148,163,184,0.25)', '&:hover': { color: '#ef4444', bgcolor: 'rgba(239,68,68,0.08)' } }}
                           >
-                            <DeleteOutlineIcon sx={{ fontSize: 16 }} />
+                            <DeleteOutlinedIcon sx={{ fontSize: 16 }} />
                           </IconButton>
                         </Tooltip>
                       </TableCell>
