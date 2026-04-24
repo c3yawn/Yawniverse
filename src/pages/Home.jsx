@@ -1,9 +1,31 @@
+import { useEffect, useState } from 'react';
 import { Box, Container, Grid, Typography } from '@mui/material';
 import NebulaBackground from '../components/NebulaBackground';
 import ProjectCard from '../components/ProjectCard';
 import { projects } from '../data/projects';
+import { supabase } from '../lib/supabase';
+
+const FALLBACK_QUOTE = {
+  text: "Alexander wept when he heard Anaxarchus discourse about an infinite number of worlds, and when his friends inquired what ailed him, 'Is it not worthy of tears,' he said, 'that, when the number of worlds is infinite, we have not yet become lords of a single one?'",
+  attribution: '— Plutarch, on Alexander',
+};
 
 export default function Home() {
+  const [quote, setQuote] = useState(FALLBACK_QUOTE);
+
+  useEffect(() => {
+    supabase
+      .from('quotes')
+      .select('text, attribution')
+      .eq('active', true)
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          const pick = data[Math.floor(Math.random() * data.length)];
+          setQuote({ text: pick.text, attribution: pick.attribution ?? '' });
+        }
+      });
+  }, []);
+
   return (
     <>
       <NebulaBackground />
@@ -48,20 +70,22 @@ export default function Home() {
                 mb: 2,
               }}
             >
-              Alexander wept when he heard Anaxarchus discourse about an infinite number of worlds, and when his friends inquired what ailed him, 'Is it not worthy of tears,' he said, 'that, when the number of worlds is infinite, we have not yet become lords of a single one?'
+              {quote.text}
             </Typography>
-            <Typography
-              variant="caption"
-              sx={{
-                fontFamily: '"Cinzel", serif',
-                fontSize: '0.6rem',
-                letterSpacing: '0.2em',
-                color: 'rgba(124, 58, 237, 0.6)',
-                textTransform: 'uppercase',
-              }}
-            >
-              — Plutarch, on Alexander
-            </Typography>
+            {quote.attribution && (
+              <Typography
+                variant="caption"
+                sx={{
+                  fontFamily: '"Cinzel", serif',
+                  fontSize: '0.6rem',
+                  letterSpacing: '0.2em',
+                  color: 'rgba(124, 58, 237, 0.6)',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {quote.attribution}
+              </Typography>
+            )}
           </Box>
         </Box>
 

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { AppBar, Avatar, Box, Button, Divider, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import SignInModal from './SignInModal';
 
 export default function Navbar() {
-  const { user, signOut } = useAuth();
+  const { user, isAdmin, signOut } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [signInOpen, setSignInOpen] = useState(false);
@@ -39,6 +39,33 @@ export default function Navbar() {
           >
             The Yawniverse
           </Typography>
+
+          {isAdmin && (
+            <Button
+              component={Link}
+              to="/admin"
+              size="small"
+              sx={{
+                fontFamily: '"Raleway", sans-serif',
+                fontWeight: 600,
+                fontSize: '0.72rem',
+                letterSpacing: '0.12em',
+                color: 'rgba(167,139,250,0.55)',
+                textTransform: 'uppercase',
+                mr: 1.5,
+                minWidth: 0,
+                px: 1,
+                py: 0.5,
+                borderRadius: '4px',
+                '&:hover': {
+                  color: '#a78bfa',
+                  background: 'rgba(124,58,237,0.08)',
+                },
+              }}
+            >
+              Admin
+            </Button>
+          )}
 
           {showAuth && (user ? (
             <>
