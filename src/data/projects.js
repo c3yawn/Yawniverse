@@ -14,7 +14,7 @@ export const projects = [
     id: 'game',
     title: 'Dark Embers RPG',
     description:
-      'A village burns, and in its final moments, one man stands against a force that has already claimed everything. From the ashes, a lone survivor is left to carry that moment forward into a world reshaped by conquest, where loss is only the beginning, and what rises from it will decide what\'s left to take back.',
+      'A village burns. One man stands against a force that\'s already won. The lone survivor carries it forward — into a world reshaped by conquest, where what rises from the ashes decides what\'s left to take back.',
     status: 'In Development',
     path: '/game',
     image: `${import.meta.env.BASE_URL}images/rpgcard.png`,
