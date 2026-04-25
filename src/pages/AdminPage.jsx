@@ -133,7 +133,7 @@ export default function AdminPage() {
             />
             <TextField
               label="Attribution"
-              placeholder="e.g. — Plutarch, on Alexander"
+              placeholder="e.g. Plutarch, on Alexander"
               value={attribution}
               onChange={(e) => setAttribution(e.target.value)}
               fullWidth

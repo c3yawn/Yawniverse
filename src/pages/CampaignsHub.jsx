@@ -96,7 +96,7 @@ export default function CampaignsHub() {
                 textTransform: 'uppercase',
               }}
             >
-              — Plutarch, on Alexander
+              - Plutarch, on Alexander
             </Typography>
           </Box>
         </Box>

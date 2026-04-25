@@ -7,7 +7,7 @@ import { supabase } from '../lib/supabase';
 
 const FALLBACK_QUOTE = {
   text: "Alexander wept when he heard Anaxarchus discourse about an infinite number of worlds, and when his friends inquired what ailed him, 'Is it not worthy of tears,' he said, 'that, when the number of worlds is infinite, we have not yet become lords of a single one?'",
-  attribution: '— Plutarch, on Alexander',
+  attribution: '- Plutarch, on Alexander',
 };
 
 export default function Home() {

@@ -86,7 +86,7 @@ export const SYSTEMS = {
               id: 'psionic_disciplines',
               label: 'Psionic Disciplines',
               type: 'textarea',
-              placeholder: 'Psychics only — list disciplines and techniques',
+              placeholder: 'Psychics only: list disciplines and techniques',
             },
           ],
         },

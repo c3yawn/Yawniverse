@@ -14,7 +14,7 @@ export const projects = [
     id: 'game',
     title: 'Dark Embers RPG',
     description:
-      'A village burns. One man stands against a force that\'s already won. The lone survivor carries it forward — into a world reshaped by conquest, where what rises from the ashes decides what\'s left to take back.',
+      'A village burns. One man stands against a force that\'s already won. The lone survivor carries it forward, into a world reshaped by conquest, where what rises from the ashes decides what\'s left to take back.',
     status: 'In Development',
     path: '/game',
     image: `${import.meta.env.BASE_URL}images/rpgcard.png`,
@@ -25,7 +25,7 @@ export const projects = [
     id: 'steam',
     title: 'Steam Achievement Tracker',
     description:
-      'A personal 100% completion tracker for the Steam library. Queue games, track in-progress achievement hunts, and log completed runs — all in one place.',
+      'A personal 100% completion tracker for the Steam library. Queue games, track in-progress achievement hunts, and log completed runs, all in one place.',
     status: 'Active',
     path: '/steam',
     image: `${import.meta.env.BASE_URL}images/steamtracker.png`,

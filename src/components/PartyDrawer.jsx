@@ -164,7 +164,7 @@ export default function PartyDrawer({ open, onClose, campaignId, systemId }) {
               textTransform: 'uppercase',
             }}
           >
-            Party — {characters.length} {characters.length === 1 ? 'Character' : 'Characters'}
+            Party: {characters.length} {characters.length === 1 ? 'Character' : 'Characters'}
           </Typography>
           <IconButton onClick={onClose} size="small" sx={{ color: 'text.secondary' }}>
             <CloseIcon fontSize="small" />

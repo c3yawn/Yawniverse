@@ -421,7 +421,7 @@ export default function SteamTrackerPage() {
                         {achLoading ? (
                           <Skeleton width={50} height={13} sx={{ bgcolor: 'rgba(124,58,237,0.1)' }} />
                         ) : noAch ? (
-                          <Typography sx={{ fontSize: '0.73rem', color: 'rgba(148,163,184,0.3)' }}>—</Typography>
+                          <Typography sx={{ fontSize: '0.73rem', color: 'rgba(148,163,184,0.3)' }}>-</Typography>
                         ) : (
                           <Typography sx={{ fontSize: '0.78rem', color: 'rgba(148,163,184,0.65)', fontVariantNumeric: 'tabular-nums' }}>
                             {game.ach.achieved} / {game.ach.total}

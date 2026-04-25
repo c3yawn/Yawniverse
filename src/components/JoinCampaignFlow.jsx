@@ -182,7 +182,7 @@ function DefaultFieldLayout({ fields, formData, onChange }) {
               variant="outlined"
               size="small"
             >
-              <MenuItem value=""><em>— select —</em></MenuItem>
+              <MenuItem value=""><em>Select...</em></MenuItem>
               {field.options.map((opt) => (
                 <MenuItem key={opt} value={opt}>{opt}</MenuItem>
               ))}
@@ -452,7 +452,7 @@ export default function JoinCampaignFlow({ open, onClose, campaign, systemId }) 
         }}
       >
         <Typography component="span" sx={{ fontFamily: 'inherit', fontSize: '1.1rem', fontWeight: 700 }}>
-          Join — {campaign.title}
+          Join: {campaign.title}
         </Typography>
         <Typography
           component="div"

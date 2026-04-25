@@ -96,7 +96,7 @@ function StatBlock({ systemId, data, fields }) {
               {f.label}
             </Typography>
             <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: '#e2e8f0', lineHeight: 1 }}>
-              {val || '—'}
+              {val || '-'}
             </Typography>
             {mod !== null && (
               <Typography sx={{ fontSize: '0.68rem', color: mod >= 0 ? '#a78bfa' : '#f87171', lineHeight: 1.2 }}>
@@ -176,7 +176,7 @@ function CombatBar({ systemId, data }) {
             <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.5rem', letterSpacing: '0.12em', color: 'rgba(148,163,184,0.5)', display: 'block' }}>
               {s.label}
             </Typography>
-            <Typography sx={{ fontSize: '0.88rem', fontWeight: 700, color: '#e2e8f0' }}>{s.value || '—'}</Typography>
+            <Typography sx={{ fontSize: '0.88rem', fontWeight: 700, color: '#e2e8f0' }}>{s.value || '-'}</Typography>
           </Box>
         ))}
       </Box>
