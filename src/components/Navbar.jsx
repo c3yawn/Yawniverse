@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import SignInModal from './SignInModal';
 
 export default function Navbar() {
-  const { user, isAdmin, signOut } = useAuth();
+  const { user, profile, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
   const [signInOpen, setSignInOpen] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState(null);
@@ -13,7 +13,8 @@ export default function Navbar() {
     ? user.user_metadata.full_name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase()
     : user?.email?.[0]?.toUpperCase() ?? '?';
 
-  const avatarSrc = user?.user_metadata?.avatar_url ?? undefined;
+  const avatarSrc = profile?.avatar_url ?? user?.user_metadata?.avatar_url ?? undefined;
+  const displayName = profile?.username ?? user?.user_metadata?.full_name ?? user?.email;
 
   return (
     <>
@@ -105,11 +106,9 @@ export default function Navbar() {
               >
                 <MenuItem disabled sx={{ opacity: '1 !important', pb: 0.5 }}>
                   <Box>
-                    {user.user_metadata?.full_name && (
-                      <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#e2e8f0', lineHeight: 1.3 }}>
-                        {user.user_metadata.full_name}
-                      </Typography>
-                    )}
+                    <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#e2e8f0', lineHeight: 1.3 }}>
+                      {displayName}
+                    </Typography>
                     <Typography sx={{ fontSize: '0.72rem', color: '#64748b' }}>
                       {user.email}
                     </Typography>
