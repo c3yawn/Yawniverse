@@ -50,7 +50,7 @@ export function AuthProvider({ children }) {
   }
 
   const isAdmin = user?.app_metadata?.role === 'admin';
-  const needsUsername = !!user && profile !== null && !profile.username;
+  const needsUsername = !!user && (profile === null || !profile.username);
 
   return (
     <AuthContext.Provider value={{ user, profile, loading, isAdmin, needsUsername, fetchProfile, signInWithGoogle, signInWithDiscord, signOut }}>
