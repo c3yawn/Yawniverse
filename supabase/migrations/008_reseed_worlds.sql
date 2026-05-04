@@ -24,6 +24,7 @@ create type biome_theme as enum (
   'divide'            -- Janus
 );
 
+alter table biomes alter column theme drop default;
 alter table biomes
   alter column theme type biome_theme
   using theme::text::biome_theme;
