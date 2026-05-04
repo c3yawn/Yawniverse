@@ -116,7 +116,7 @@ export default function ArcadiaPage() {
 
   return (
     <>
-      <NebulaBackground />
+      <NebulaBackground src="images/arcadia_bg.mp4" />
       <Container maxWidth="md" sx={{ py: { xs: 6, md: 10 }, position: 'relative', zIndex: 1 }}>
 
         {/* Hero */}

@@ -43,7 +43,7 @@ export default function CampaignsHub() {
 
   return (
     <>
-      <NebulaBackground />
+      <NebulaBackground src="images/campaigncodex_bg.mp4" />
 
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Box sx={{ mb: 8, textAlign: 'center' }}>

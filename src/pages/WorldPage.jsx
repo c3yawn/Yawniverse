@@ -138,7 +138,7 @@ export default function WorldPage() {
 
   return (
     <>
-      <NebulaBackground />
+      <NebulaBackground src="images/arcadia_bg.mp4" />
       <Container maxWidth="lg" sx={{ py: 6, position: 'relative', zIndex: 1 }}>
 
         <Button

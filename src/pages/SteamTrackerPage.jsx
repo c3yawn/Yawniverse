@@ -143,7 +143,7 @@ export default function SteamTrackerPage() {
 
   return (
     <>
-      <NebulaBackground />
+      <NebulaBackground src="images/steamtracker_bg.png" />
 
       <Container maxWidth="xl" sx={{ py: 8 }}>
         {/* Header */}
