@@ -17,7 +17,7 @@ export const projects = [
       'A creature adoption and collection game set across four alien worlds. Send expeditions into classified biomes, discover creatures found nowhere else in charted space, and build your Vivarium.',
     status: 'In Development',
     path: '/arcadia',
-    image: '',
+    image: `${import.meta.env.BASE_URL}images/arcadia_project_card.png`,
     gradient: 'linear-gradient(135deg, #0d9488, #7c3aed, #f59e0b)',
     glow: 'rgba(13, 148, 136, 0.35)',
   },
