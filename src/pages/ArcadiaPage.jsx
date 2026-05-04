@@ -9,22 +9,22 @@ const WORLD_ORDER = ['umihotaru', 'enlil', 'taranis', 'janus'];
 
 const WORLD_CONFIG = {
   umihotaru: {
-    planetGradient: 'radial-gradient(circle at 35% 32%, #5eead4 0%, #0d9488 38%, #065f46 68%, #021a1a 100%)',
+    icon: 'images/umihotaru_icon_v2_transparent.png',
     glow: 'rgba(13, 148, 136, 0.6)',
     accent: '#0d9488',
   },
   enlil: {
-    planetGradient: 'radial-gradient(circle at 38% 30%, #fde68a 0%, #d97706 32%, #92400e 62%, #3b1402 100%)',
+    icon: 'images/enlil_icon_transparent.png',
     glow: 'rgba(217, 119, 6, 0.6)',
     accent: '#f59e0b',
   },
   taranis: {
-    planetGradient: 'radial-gradient(circle at 40% 33%, #ddd6fe 0%, #7c3aed 38%, #312e81 66%, #0d0b20 100%)',
+    icon: 'images/taranis_icon_transparent.png',
     glow: 'rgba(124, 58, 237, 0.6)',
     accent: '#a78bfa',
   },
   janus: {
-    planetGradient: 'linear-gradient(108deg, #7f1d1d 0%, #ef4444 36%, #b91c1c 46%, #1e3a5f 54%, #1d4ed8 64%, #0f172a 100%)',
+    icon: 'images/janus_icon_transparent.png',
     glow: 'rgba(127, 29, 29, 0.5)',
     accent: '#ef4444',
   },
@@ -50,21 +50,30 @@ function PlanetSprite({ worldId, world, locked }) {
     >
       <Box
         sx={{
-          width: 90,
-          height: 90,
+          width: 100,
+          height: 100,
           borderRadius: '50%',
-          background: locked
-            ? 'radial-gradient(circle at 40% 35%, #1e293b, #0f172a)'
-            : config.planetGradient,
-          boxShadow: locked
-            ? 'inset -5px -7px 14px rgba(0,0,0,0.7)'
-            : `0 0 28px ${config.glow}, inset -6px -8px 16px rgba(0,0,0,0.55)`,
-          transition: 'box-shadow 0.25s ease',
+          overflow: 'hidden',
+          filter: locked
+            ? 'grayscale(1) brightness(0.3)'
+            : `drop-shadow(0 0 14px ${config.glow})`,
+          transition: 'filter 0.25s ease',
           '&:hover': locked ? {} : {
-            boxShadow: `0 0 48px ${config.glow}, inset -6px -8px 16px rgba(0,0,0,0.55)`,
+            filter: `drop-shadow(0 0 26px ${config.glow})`,
           },
         }}
-      />
+      >
+        {locked ? (
+          <Box sx={{ width: '100%', height: '100%', background: 'radial-gradient(circle at 40% 35%, #1e293b, #0f172a)' }} />
+        ) : (
+          <Box
+            component="img"
+            src={`${import.meta.env.BASE_URL}${config.icon}`}
+            alt={worldId}
+            sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', imageRendering: 'pixelated' }}
+          />
+        )}
+      </Box>
       <Box sx={{ textAlign: 'center' }}>
         <Typography
           sx={{
