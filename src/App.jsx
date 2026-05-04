@@ -6,6 +6,8 @@ import GamePage from './pages/GamePage';
 import SteamTrackerPage from './pages/SteamTrackerPage';
 import AdminPage from './pages/AdminPage';
 import UsernameSetupPage from './pages/UsernameSetupPage';
+import WildPage from './pages/WildPage';
+import WorldPage from './pages/WorldPage';
 import Navbar from './components/Navbar';
 import { useAuth } from './context/AuthContext';
 
@@ -33,6 +35,9 @@ export default function App() {
           <Route path="/steam" element={<SteamTrackerPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/setup-username" element={<UsernameSetupPage />} />
+          <Route path="/creatures" element={<WildPage />} />
+          <Route path="/creatures/world/:worldId" element={<WorldPage />} />
+          <Route path="/creatures/stable" element={<WildPage />} />
         </Routes>
       </UsernameGate>
     </>

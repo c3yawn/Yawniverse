@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { AppBar, Avatar, Box, Button, Divider, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import SignInModal from './SignInModal';
 
 export default function Navbar() {
   const { user, profile, isAdmin, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const onWild = location.pathname.startsWith('/creatures');
   const [signInOpen, setSignInOpen] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState(null);
   const initials = user?.user_metadata?.full_name
@@ -37,6 +39,28 @@ export default function Navbar() {
           >
             The Yawniverse
           </Typography>
+
+          <Button
+            component={Link}
+            to="/creatures"
+            size="small"
+            sx={{
+              fontFamily: '"Raleway", sans-serif',
+              fontWeight: 600,
+              fontSize: '0.72rem',
+              letterSpacing: '0.12em',
+              color: onWild ? '#c084fc' : 'rgba(167,139,250,0.55)',
+              textTransform: 'uppercase',
+              mr: 1,
+              minWidth: 0,
+              px: 1,
+              py: 0.5,
+              borderRadius: '4px',
+              '&:hover': { color: '#a78bfa', background: 'rgba(124,58,237,0.08)' },
+            }}
+          >
+            The Wild
+          </Button>
 
           {isAdmin && (
             <Button
