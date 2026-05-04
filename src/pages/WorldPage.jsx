@@ -143,7 +143,7 @@ export default function WorldPage() {
 
         <Button
           startIcon={<ArrowBackIcon />}
-          onClick={() => navigate('/creatures')}
+          onClick={() => navigate('/arcadia')}
           sx={{
             color: '#64748b',
             fontFamily: '"Raleway", sans-serif',
@@ -456,7 +456,7 @@ export default function WorldPage() {
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
               <Button
                 variant="contained"
-                onClick={() => navigate('/creatures/stable')}
+                onClick={() => navigate('/arcadia/vivarium')}
                 sx={{
                   fontFamily: '"Raleway", sans-serif',
                   fontWeight: 700,

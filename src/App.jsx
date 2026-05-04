@@ -6,7 +6,7 @@ import GamePage from './pages/GamePage';
 import SteamTrackerPage from './pages/SteamTrackerPage';
 import AdminPage from './pages/AdminPage';
 import UsernameSetupPage from './pages/UsernameSetupPage';
-import WildPage from './pages/WildPage';
+import ArcadiaPage from './pages/ArcadiaPage';
 import WorldPage from './pages/WorldPage';
 import Navbar from './components/Navbar';
 import { useAuth } from './context/AuthContext';
@@ -35,9 +35,13 @@ export default function App() {
           <Route path="/steam" element={<SteamTrackerPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/setup-username" element={<UsernameSetupPage />} />
-          <Route path="/creatures" element={<WildPage />} />
-          <Route path="/creatures/world/:worldId" element={<WorldPage />} />
-          <Route path="/creatures/stable" element={<WildPage />} />
+          <Route path="/arcadia" element={<ArcadiaPage />} />
+          <Route path="/arcadia/world/:worldId" element={<WorldPage />} />
+          <Route path="/arcadia/vivarium" element={<ArcadiaPage />} />
+          {/* Redirects from old /creatures routes */}
+          <Route path="/creatures" element={<Navigate to="/arcadia" replace />} />
+          <Route path="/creatures/world/:worldId" element={<Navigate to="/arcadia" replace />} />
+          <Route path="/creatures/stable" element={<Navigate to="/arcadia/vivarium" replace />} />
         </Routes>
       </UsernameGate>
     </>
