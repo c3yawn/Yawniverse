@@ -91,7 +91,7 @@ export default function AdminPage() {
         >
           Admin Tools
         </Typography>
-        <Typography sx={{ fontFamily: '"Raleway", sans-serif', fontSize: '0.8rem', color: '#475569', mb: 6 }}>
+        <Typography sx={{ fontFamily: '"Raleway", sans-serif', fontSize: '0.8rem', color: '#94a3b8', mb: 6 }}>
           Yawniverse admin access only.
         </Typography>
 
@@ -116,7 +116,7 @@ export default function AdminPage() {
           >
             Add a Quote
           </Typography>
-          <Typography sx={{ fontFamily: '"Raleway", sans-serif', fontSize: '0.78rem', color: '#475569', mb: 3 }}>
+          <Typography sx={{ fontFamily: '"Raleway", sans-serif', fontSize: '0.78rem', color: '#94a3b8', mb: 3 }}>
             Quotes are shown randomly on the homepage. Leave attribution blank to display no source.
           </Typography>
 

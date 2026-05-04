@@ -151,7 +151,7 @@ export default function ArcadiaPage() {
             sx={{
               fontFamily: '"Cinzel", serif',
               fontSize: { xs: '0.85rem', md: '1rem' },
-              color: '#475569',
+              color: '#8892a4',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
               mb: 4,
@@ -202,7 +202,7 @@ export default function ArcadiaPage() {
                 My Vivarium
               </Button>
             ) : (
-              <Typography sx={{ color: '#334155', fontFamily: '"Raleway", sans-serif', fontSize: '0.85rem', alignSelf: 'center' }}>
+              <Typography sx={{ color: '#94a3b8', fontFamily: '"Raleway", sans-serif', fontSize: '0.85rem', alignSelf: 'center' }}>
                 Sign in to build your Vivarium.
               </Typography>
             )}
@@ -215,7 +215,7 @@ export default function ArcadiaPage() {
             sx={{
               fontFamily: '"Cinzel", serif',
               fontSize: '0.7rem',
-              color: '#334155',
+              color: '#64748b',
               letterSpacing: '0.28em',
               textTransform: 'uppercase',
               textAlign: 'center',

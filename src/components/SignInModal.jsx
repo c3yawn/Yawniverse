@@ -110,7 +110,7 @@ export default function SignInModal({ open, onClose }) {
 
         <Typography
           variant="caption"
-          sx={{ color: '#475569', fontSize: '0.7rem', textAlign: 'center', display: 'block' }}
+          sx={{ color: '#64748b', fontSize: '0.7rem', textAlign: 'center', display: 'block' }}
         >
           Your data stays in The Yawniverse.
         </Typography>

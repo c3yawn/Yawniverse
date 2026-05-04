@@ -383,7 +383,7 @@ export default function WorldPage() {
                         <Typography
                           sx={{
                             fontSize: '0.75rem',
-                            color: '#475569',
+                            color: '#94a3b8',
                             fontFamily: '"Raleway", sans-serif',
                             textTransform: 'capitalize',
                             mb: 1.5,
@@ -424,7 +424,7 @@ export default function WorldPage() {
                 onClick={startExpedition}
                 disabled={phase === 'adopting'}
                 sx={{
-                  color: '#475569',
+                  color: '#94a3b8',
                   fontFamily: '"Raleway", sans-serif',
                   fontSize: '0.8rem',
                   '&:hover': { color: '#94a3b8' },
