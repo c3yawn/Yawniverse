@@ -46,7 +46,7 @@ export default function CampaignsHub() {
       <NebulaBackground src="images/campaigncodex_bg.mp4" />
 
       <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Box sx={{ mb: 8, textAlign: 'center' }}>
+        <Box sx={{ mb: 6, textAlign: 'center' }}>
           <Typography
             variant="h2"
             component="h1"
@@ -65,40 +65,6 @@ export default function CampaignsHub() {
           >
             Campaign Codex
           </Typography>
-          <Box sx={{ maxWidth: 580, mx: 'auto' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-              <Box sx={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(124,58,237,0.4))' }} />
-              <Typography sx={{ fontFamily: 'Georgia, serif', fontSize: '1.8rem', color: 'rgba(167,139,250,0.35)', lineHeight: 1 }}>
-                {'"'}
-              </Typography>
-              <Box sx={{ flex: 1, height: '1px', background: 'linear-gradient(90deg, rgba(124,58,237,0.4), transparent)' }} />
-            </Box>
-            <Typography
-              variant="body2"
-              sx={{
-                fontStyle: 'italic',
-                fontSize: '0.88rem',
-                lineHeight: 1.9,
-                color: 'rgba(148, 163, 184, 0.82)',
-                letterSpacing: '0.03em',
-                mb: 2,
-              }}
-            >
-              Alexander wept when he heard Anaxarchus discourse about an infinite number of worlds, and when his friends inquired what ailed him, 'Is it not worthy of tears,' he said, 'that, when the number of worlds is infinite, we have not yet become lords of a single one?'
-            </Typography>
-            <Typography
-              variant="caption"
-              sx={{
-                fontFamily: '"Cinzel", serif',
-                fontSize: '0.6rem',
-                letterSpacing: '0.2em',
-                color: 'rgba(124, 58, 237, 0.6)',
-                textTransform: 'uppercase',
-              }}
-            >
-              - Plutarch, on Alexander
-            </Typography>
-          </Box>
         </Box>
 
         <Box
