@@ -184,8 +184,8 @@ export default function CreaturePage() {
         <meta property="og:url" content={pageUrl} />
         <meta property="og:type" content="website" />
         {spriteUrl && <meta property="og:image" content={spriteUrl} />}
-        {spriteUrl && <meta property="og:image:width" content="400" />}
-        {spriteUrl && <meta property="og:image:height" content="400" />}
+        {spriteUrl && <meta property="og:image:width" content="100" />}
+        {spriteUrl && <meta property="og:image:height" content="100" />}
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={ogTitle} />
         <meta name="twitter:description" content={ogDescription} />
