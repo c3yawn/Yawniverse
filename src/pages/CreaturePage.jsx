@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import {
   Box, Container, Typography, Button, Chip, CircularProgress,
-  TextField, InputAdornment, IconButton,
+  TextField, IconButton,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckIcon from '@mui/icons-material/Check';
@@ -10,6 +11,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import NebulaBackground from '../components/NebulaBackground';
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
 const RARITY_CONFIG = {
   common:    { color: '#94a3b8', label: 'Common' },
@@ -127,6 +130,19 @@ export default function CreaturePage() {
   const rarity = RARITY_CONFIG[creature?.species?.rarity] ?? RARITY_CONFIG.common;
   const worldCfg = WORLD_CONFIG[world] ?? WORLD_CONFIG.umihotaru;
 
+  // Build OG values — used once creature data is loaded
+  const displayName = creature?.name ?? creature?.species?.name ?? 'Unknown';
+  const spriteUrl = creature
+    ? `${SUPABASE_URL}/functions/v1/creature-sprite/${creatureId}`
+    : null;
+  const pageUrl = `https://c3yawn.github.io/Yawniverse/arcadia/creature/${creatureId}`;
+  const ogTitle = creature
+    ? `${displayName} — ${RARITY_CONFIG[creature.species?.rarity]?.label ?? 'Creature'} · Arcadia`
+    : 'Arcadia — Creature Collection';
+  const ogDescription = creature
+    ? `A ${creature.stage} ${creature.species?.name ?? 'creature'} from ${WORLD_CONFIG[world]?.label ?? 'the stars'}. Views: ${creature.unique_views}`
+    : 'Adopt and raise creatures from across charted space.';
+
   if (loading) {
     return (
       <>
@@ -157,11 +173,24 @@ export default function CreaturePage() {
     );
   }
 
-  const displayName = creature.name ?? creature.species?.name ?? 'Unknown';
   const adoptedDate = new Date(creature.adopted_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
   return (
     <>
+      <Helmet>
+        <title>{ogTitle}</title>
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:type" content="website" />
+        {spriteUrl && <meta property="og:image" content={spriteUrl} />}
+        {spriteUrl && <meta property="og:image:width" content="400" />}
+        {spriteUrl && <meta property="og:image:height" content="400" />}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={ogTitle} />
+        <meta name="twitter:description" content={ogDescription} />
+        {spriteUrl && <meta name="twitter:image" content={spriteUrl} />}
+      </Helmet>
       <NebulaBackground src="images/arcadia_bg.mp4" />
       <Container maxWidth="md" sx={{ py: 6, position: 'relative', zIndex: 1 }}>
 
