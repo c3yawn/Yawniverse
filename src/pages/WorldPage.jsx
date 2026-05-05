@@ -71,6 +71,7 @@ export default function WorldPage() {
   const [adoptedName, setAdoptedName] = useState('');
   const [error, setError] = useState(null);
   const [visibleCards, setVisibleCards] = useState(0);
+  const [hatchlingCount, setHatchlingCount] = useState(0);
 
   const config = WORLD_CONFIG[worldId] ?? WORLD_CONFIG.umihotaru;
 
@@ -78,6 +79,16 @@ export default function WorldPage() {
     supabase.from('biomes').select('*').eq('id', worldId).single()
       .then(({ data }) => setWorld(data));
   }, [worldId]);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from('creatures')
+      .select('id', { count: 'exact', head: true })
+      .eq('owner_id', user.id)
+      .eq('stage', 'hatchling')
+      .then(({ count }) => setHatchlingCount(count ?? 0));
+  }, [user]);
 
   async function startExpedition() {
     if (!user) return;
@@ -133,6 +144,7 @@ export default function WorldPage() {
     }
 
     setAdoptedName(creature.name);
+    setHatchlingCount(c => c + 1);
     setPhase('done');
   }
 
@@ -210,9 +222,48 @@ export default function WorldPage() {
         {phase === 'idle' && (
           <Box sx={{ textAlign: 'center', py: 6 }}>
             {!user ? (
-              <Typography sx={{ color: '#64748b', fontFamily: '"Raleway", sans-serif' }}>
+              <Typography sx={{ color: '#94a3b8', fontFamily: '"Raleway", sans-serif' }}>
                 Sign in to send an expedition.
               </Typography>
+            ) : hatchlingCount >= 5 ? (
+              <>
+                <Typography
+                  sx={{
+                    fontFamily: '"Cinzel", serif',
+                    fontSize: '1rem',
+                    color: '#e2e8f0',
+                    mb: 1,
+                  }}
+                >
+                  Vivarium capacity reached.
+                </Typography>
+                <Typography
+                  sx={{
+                    color: '#94a3b8',
+                    fontFamily: '"Raleway", sans-serif',
+                    fontSize: '0.88rem',
+                    mb: 3,
+                  }}
+                >
+                  You have {hatchlingCount} hatchlings. Wait for some to grow before sending another expedition.
+                </Typography>
+                <Button
+                  onClick={() => navigate('/arcadia/vivarium')}
+                  variant="outlined"
+                  sx={{
+                    fontFamily: '"Cinzel", serif',
+                    fontWeight: 700,
+                    fontSize: '0.78rem',
+                    letterSpacing: '0.1em',
+                    color: '#94a3b8',
+                    borderColor: 'rgba(148,163,184,0.3)',
+                    textTransform: 'none',
+                    '&:hover': { borderColor: '#94a3b8', background: 'rgba(148,163,184,0.06)' },
+                  }}
+                >
+                  View Vivarium
+                </Button>
+              </>
             ) : (
               <>
                 <Typography

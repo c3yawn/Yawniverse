@@ -30,7 +30,7 @@ const WORLD_CONFIG = {
   },
 };
 
-function PlanetSprite({ worldId, world, locked }) {
+function PlanetSprite({ worldId, world, locked, unlockHint }) {
   const navigate = useNavigate();
   const config = WORLD_CONFIG[worldId] ?? WORLD_CONFIG.umihotaru;
 
@@ -101,8 +101,8 @@ function PlanetSprite({ worldId, world, locked }) {
           </Typography>
         )}
         {locked && (
-          <Typography sx={{ fontSize: '0.7rem', color: '#1e293b', fontFamily: '"Raleway", sans-serif' }}>
-            Access Restricted
+          <Typography sx={{ fontSize: '0.7rem', color: '#475569', fontFamily: '"Raleway", sans-serif' }}>
+            {unlockHint ?? 'Access Restricted'}
           </Typography>
         )}
       </Box>
@@ -112,6 +112,7 @@ function PlanetSprite({ worldId, world, locked }) {
 
 export default function ArcadiaPage() {
   const [worlds, setWorlds] = useState([]);
+  const [janusUnlocked, setJanusUnlocked] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -120,6 +121,16 @@ export default function ArcadiaPage() {
       if (data) setWorlds(data);
     });
   }, []);
+
+  useEffect(() => {
+    if (!user) { setJanusUnlocked(false); return; }
+    supabase
+      .from('creatures')
+      .select('id', { count: 'exact', head: true })
+      .eq('owner_id', user.id)
+      .eq('stage', 'adult')
+      .then(({ count }) => setJanusUnlocked((count ?? 0) >= 5));
+  }, [user]);
 
   const sorted = WORLD_ORDER.map(id => worlds.find(w => w.id === id) ?? { id, name: id, is_active: false });
 
@@ -238,7 +249,8 @@ export default function ArcadiaPage() {
                 key={world.id}
                 worldId={world.id}
                 world={world}
-                locked={!world.is_active}
+                locked={world.id === 'janus' ? !janusUnlocked : !world.is_active}
+                unlockHint={world.id === 'janus' ? 'Raise 5 adults to unlock' : undefined}
               />
             ))}
           </Box>
