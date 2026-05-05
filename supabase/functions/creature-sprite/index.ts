@@ -95,7 +95,7 @@ Deno.serve(async (req: Request) => {
   // Check Supabase Storage for a real sprite first
   const { data: spriteFile } = await supabase.storage
     .from('creature-sprites')
-    .download(`${creature.species_id}.png`);
+    .download(`${creature.species_id}_${creature.stage}.png`);
 
   if (spriteFile) {
     const arrayBuffer = await spriteFile.arrayBuffer();
