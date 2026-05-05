@@ -185,7 +185,8 @@ export default function ViviariumPage() {
           Arcadia
         </Button>
 
-        <Box sx={{ mb: 5 }}>
+        <Box sx={{ mb: 5, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
+          <Box>
           <Typography
             sx={{
               fontFamily: '"Cinzel", serif',
@@ -204,6 +205,27 @@ export default function ViviariumPage() {
             <Typography sx={{ color: '#94a3b8', fontFamily: '"Raleway", sans-serif', fontSize: '0.88rem' }}>
               {creatures.length} {creatures.length === 1 ? 'creature' : 'creatures'} in your collection
             </Typography>
+          )}
+          </Box>
+          {user && (
+            <Button
+              onClick={() => navigate('/arcadia/breeding')}
+              variant="outlined"
+              sx={{
+                fontFamily: '"Cinzel", serif',
+                fontWeight: 700,
+                fontSize: '0.75rem',
+                letterSpacing: '0.1em',
+                color: '#a78bfa',
+                borderColor: 'rgba(167,139,250,0.3)',
+                px: 2.5,
+                py: 0.9,
+                alignSelf: 'flex-start',
+                '&:hover': { borderColor: '#a78bfa', background: 'rgba(167,139,250,0.08)' },
+              }}
+            >
+              Breeding
+            </Button>
           )}
         </Box>
 
