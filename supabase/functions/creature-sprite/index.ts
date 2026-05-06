@@ -9,9 +9,9 @@ const WORLD: Record<string, { accent: string; mid: string }> = {
 
 // Radius by stage — hatchling is small, adult is full-grown
 const STAGE_RADIUS: Record<string, number> = {
-  hatchling: 28,
-  juvenile:  36,
-  adult:     44,
+  egg:      24,
+  juvenile: 36,
+  adult:    44,
 };
 
 const cors = {

@@ -345,7 +345,7 @@ export default function CreaturePage() {
           <StatRow label="Stage" value={creature.stage} />
           <StatRow label="Gender" value={creature.gender} />
           <StatRow label="Generation" value={`Gen ${creature.generation}`} />
-          <StatRow label="Origin" value={creature.is_cave_born ? 'Wild-born' : 'Bred'} />
+          <StatRow label="Origin" value={creature.is_cave_born ? 'Wild egg' : 'Bred'} />
           <StatRow label="Adopted" value={adoptedDate} />
           <StatRow label="Views" value={creature.views.toLocaleString()} valueColor="#94a3b8" />
         </Box>

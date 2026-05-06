@@ -24,7 +24,7 @@ const ERROR_MESSAGES = {
   not_owner:     'You must own both creatures.',
   not_adult:     'Both creatures must be adults.',
   on_cooldown:   'One or both creatures are still on breeding cooldown.',
-  hatchling_cap: 'You already have 5 hatchlings. Wait for some to grow before breeding.',
+  egg_cap:       'You already have 5 eggs. Wait for some to hatch before breeding.',
   default:       'Something went wrong. Please try again.',
 };
 
@@ -227,7 +227,7 @@ export default function BreedingPage() {
         {result && (
           <Box sx={{ textAlign: 'center', py: 8 }}>
             <Typography sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '1.4rem', color: '#e2e8f0', mb: 1 }}>
-              A {result.speciesName} hatchling was born.
+              A {result.speciesName} egg appeared.
             </Typography>
             <Typography sx={{ color: '#94a3b8', fontFamily: '"Raleway", sans-serif', fontSize: '0.88rem', mb: 5 }}>
               Both parents are on a 7-day cooldown.

@@ -86,7 +86,7 @@ export default function WorldPage() {
       .from('creatures')
       .select('id', { count: 'exact', head: true })
       .eq('owner_id', user.id)
-      .eq('stage', 'hatchling')
+      .eq('stage', 'egg')
       .then(({ count }) => setHatchlingCount(count ?? 0));
   }, [user]);
 
@@ -130,7 +130,7 @@ export default function WorldPage() {
         species_id: creature.id,
         owner_id: user.id,
         gender: creature.gender,
-        stage: 'hatchling',
+        stage: 'egg',
         is_cave_born: true,
         generation: 1,
       })
@@ -245,7 +245,7 @@ export default function WorldPage() {
                     mb: 3,
                   }}
                 >
-                  You have {hatchlingCount} hatchlings. Wait for some to grow before sending another expedition.
+                  You have {hatchlingCount} eggs. Wait for some to hatch before sending another expedition.
                 </Typography>
                 <Button
                   onClick={() => navigate('/arcadia/vivarium')}
