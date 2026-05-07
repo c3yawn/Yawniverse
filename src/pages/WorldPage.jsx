@@ -6,6 +6,12 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import NebulaBackground from '../components/NebulaBackground';
 
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+
+function eggSpriteUrl(speciesId) {
+  return `${SUPABASE_URL}/storage/v1/object/public/creature-sprites/${speciesId}_egg.png`;
+}
+
 const WORLD_CONFIG = {
   umihotaru: {
     gradient: 'linear-gradient(145deg, #042f2e 0%, #0d9488 60%, #0ea5e9 100%)',
@@ -394,15 +400,24 @@ export default function WorldPage() {
                         },
                       }}
                     >
-                      {/* Creature gradient banner */}
+                      {/* Creature banner with egg sprite */}
                       <Box
                         sx={{
                           height: 80,
                           background: config.gradient,
-                          opacity: 0.7,
+                          opacity: 0.9,
                           position: 'relative',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
-                      />
+                      >
+                        <img
+                          src={eggSpriteUrl(creature.id)}
+                          alt={creature.name}
+                          style={{ height: 64, width: 64, objectFit: 'contain' }}
+                        />
+                      </Box>
 
                       <Box sx={{ p: 2 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.75 }}>
