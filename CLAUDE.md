@@ -139,6 +139,63 @@ Current systems array order: **Stars Without Number** (2), **D&D 5e** (3), **Sha
 
 ---
 
+## Arcadia — Creature Collection Game
+
+A Dragon Cave-style creature adoption game embedded within The Yawniverse. Users adopt creature eggs from 4 worlds, raise them by accumulating views, and breed adults to produce offspring.
+
+### Worlds (biomes)
+- **Umihotaru** — bioluminescent ocean/jungle world (teal/cyan palette)
+- **Enlil** — amber desert/savanna world (amber/gold palette)
+- **Taranis** — crystal cave/storm world (purple/violet palette)
+- **Janus** — split volcanic+frozen world (red+blue split palette), unlocks at 5 adults
+
+### Species (12 total, 3 per world)
+All species IDs are text slugs. Sprites stored in Supabase Storage bucket `creature-sprites` as `[species_id]_[stage].png`.
+
+| ID | Display Name | World | Rarity |
+|---|---|---|---|
+| lumoth | Lumoth | umihotaru | common |
+| veloshade | Veloshade | umihotaru | uncommon |
+| reefwyrm | Reefwyrm | umihotaru | rare |
+| duskstrider | Sungrazer | enlil | common |
+| sandreaver | Sandreaver | enlil | uncommon |
+| ridgecrown | Ridgecrown | enlil | rare |
+| lucerna | Lucerna | taranis | uncommon |
+| kaminari | Kaminari | taranis | rare |
+| raijin | Raijin | taranis | very_rare |
+| hazama | Hazama | janus | rare |
+| scoria | Scoria | janus | very_rare |
+| rimewarden | Rimewarden | janus | very_rare |
+
+### Stages
+egg (25 views) → juvenile (100 views) → adult. Progression handled by Postgres trigger `check_stage_progression` on creatures table. Thresholds stored in `game_settings` table (no deploy needed to change).
+
+### Key Pages
+- `ArcadiaPage.jsx` — hub with 4 world cards, Janus locked until 5 adults
+- `WorldPage.jsx` — expedition page, shared 3-egg pool per world (check-on-read 5-min refresh via `get_expedition_pool` RPC), slot replaced on adopt via `replace_expedition_slot` RPC
+- `ViviariumPage.jsx` — user's creature collection grid with copy URL button
+- `CreaturePage.jsx` — individual creature page with OG meta tags (og:image = Edge Function URL with `?stage=` for Discord cache busting), inline naming, stats
+- `BreedingPage.jsx` — select 2 adults, breed via `breed_creatures` RPC, 7-day cooldown, 5-egg cap
+
+### Supabase Setup
+- **Edge Function**: `creature-sprite` — serves PNG from Storage or SVG fallback, increments views via `increment_creature_views` RPC
+- **Storage bucket**: `creature-sprites` (public) — files named `[species_id]_[stage].png`
+- **Key RPCs**: `increment_creature_views`, `breed_creatures`, `get_expedition_pool`, `replace_expedition_slot`
+- **Auth providers**: Google + Discord OAuth (both enabled)
+
+### Text Generation Rules
+- **Never use em dashes** in any generated text, flavor text, or descriptions
+
+### Discord Bot (future — full session of work)
+A discord.js bot hosted on Railway/Render that connects to Supabase. Key features:
+- `/link` command — generates a token, user enters it on site `/link` page to connect Discord ID to Supabase account. Requires `discord_id` and `discord_link_token` columns on `profiles` table.
+- `/creature [name]` — posts embed with sprite, stage, rarity, views
+- `/vivarium` — posts paginated embed of all user's creatures
+- Showcase channel — bot maintains a live per-user card in a `#vivarium` channel, auto-updated via Supabase Database Webhooks when creatures stage up
+- Supabase webhook fires on `creatures` UPDATE where stage changes, hits bot endpoint, bot edits the user's showcase message
+
+---
+
 ## Key Decisions & Gotchas
 - Use `import.meta.env.BASE_URL` (not `/`) for all `public/` asset paths — critical for GitHub Pages
 - Use native `<video>` element, not MUI `Box component="video"` — muted/autoPlay don't forward reliably

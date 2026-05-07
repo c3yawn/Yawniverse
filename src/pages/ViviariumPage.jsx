@@ -4,6 +4,12 @@ import { Box, Container, Grid, Typography, Card, Chip, Button, Skeleton, IconBut
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckIcon from '@mui/icons-material/Check';
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+
+function spriteUrl(speciesId, stage) {
+  return `${SUPABASE_URL}/storage/v1/object/public/creature-sprites/${speciesId}_${stage}.png`;
+}
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import NebulaBackground from '../components/NebulaBackground';
@@ -54,7 +60,13 @@ function CreatureCard({ creature }) {
         },
       }}
     >
-      <Box sx={{ height: 80, background: world.gradient, opacity: 0.75 }} />
+      <Box sx={{ height: 80, background: world.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <img
+          src={spriteUrl(creature.species_id, creature.stage)}
+          alt={creature.species?.name}
+          style={{ height: 64, width: 64, objectFit: 'contain', imageRendering: 'pixelated' }}
+        />
+      </Box>
       <Box sx={{ p: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 0.5 }}>
           <Typography

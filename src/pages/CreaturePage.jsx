@@ -204,32 +204,15 @@ export default function CreaturePage() {
 
         {/* Header banner */}
         <Box sx={{ borderRadius: 3, overflow: 'hidden', mb: 4, border: '1px solid rgba(124,58,237,0.12)' }}>
-          <Box sx={{ height: 120, background: worldCfg.gradient, position: 'relative' }}>
+          <Box sx={{ height: 120, background: worldCfg.gradient, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(6,4,20,0.95) 100%)' }} />
-
-            <Box
-              sx={{
-                position: 'absolute',
-                bottom: -32,
-                left: { xs: '50%', sm: 48 },
-                transform: { xs: 'translateX(-50%)', sm: 'none' },
-                width: 72,
-                height: 72,
-                borderRadius: '50%',
-                border: `2px solid ${worldCfg.accent}66`,
-                boxShadow: `0 0 24px ${worldCfg.accent}44`,
-                overflow: 'hidden',
-                background: `radial-gradient(circle at 35% 35%, ${worldCfg.accent}88, ${worldCfg.accent}22)`,
-              }}
-            >
-              {spriteUrl && (
-                <img
-                  src={spriteUrl}
-                  alt={displayName}
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                />
-              )}
-            </Box>
+            {spriteUrl && (
+              <img
+                src={spriteUrl}
+                alt={displayName}
+                style={{ height: 88, width: 88, objectFit: 'contain', imageRendering: 'pixelated', position: 'relative', zIndex: 1 }}
+              />
+            )}
           </Box>
 
           <Box
@@ -237,9 +220,8 @@ export default function CreaturePage() {
               background: 'rgba(6,4,20,0.92)',
               backdropFilter: 'blur(20px)',
               px: { xs: 3, sm: 5 },
-              pt: { xs: 6, sm: 3 },
+              pt: 3,
               pb: 3,
-              pl: { sm: '144px' },
             }}
           >
             {/* Name row */}
