@@ -102,11 +102,7 @@ export default function WorldPage() {
   async function loadPool() {
     setLoading(true);
     const { data: slots, error: rpcErr } = await supabase.rpc('get_expedition_pool', { p_world_id: worldId });
-    if (rpcErr || !slots) {
-      setError(`Pool load failed: ${rpcErr?.message ?? 'no data'} (code: ${rpcErr?.code ?? '?'})`);
-      setLoading(false);
-      return;
-    }
+    if (rpcErr || !slots) { setLoading(false); return; }
 
     const speciesIds = [...new Set(slots.map(s => s.species_id))];
     const { data: speciesRows } = await supabase
