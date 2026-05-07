@@ -278,8 +278,11 @@ export default function WorldPage() {
               {pool.map(slot => {
                 const rarity = RARITY_CONFIG[slot.species?.rarity] ?? RARITY_CONFIG.common;
                 return (
-                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={slot.slot}>
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={slot.slot} sx={{ display: 'flex' }}>
                     <Card sx={{
+                      width: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
                       background: 'rgba(6, 4, 20, 0.88)',
                       backdropFilter: 'blur(20px)',
                       border: `1px solid rgba(124,58,237,0.12)`,
@@ -291,7 +294,7 @@ export default function WorldPage() {
                       <Box sx={{ height: 80, background: config.gradient, opacity: 0.9, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <img src={eggSpriteUrl(slot.species_id)} alt={slot.species?.name} style={{ height: 64, width: 64, objectFit: 'contain' }} />
                       </Box>
-                      <Box sx={{ p: 2 }}>
+                      <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', flex: 1 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}>
                           <Typography sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '0.95rem', color: '#e2e8f0' }}>
                             {slot.species?.name ?? '???'}
@@ -301,7 +304,7 @@ export default function WorldPage() {
                             color: rarity.color, background: `${rarity.color}18`, border: `1px solid ${rarity.color}44`,
                           }} />
                         </Box>
-                        <Typography sx={{ fontSize: '0.72rem', color: '#64748b', fontFamily: '"Raleway", sans-serif', fontStyle: 'italic', mb: 1.5, lineHeight: 1.55 }}>
+                        <Typography sx={{ fontSize: '0.72rem', color: '#64748b', fontFamily: '"Raleway", sans-serif', fontStyle: 'italic', mb: 1.5, lineHeight: 1.55, flex: 1 }}>
                           {EGG_HINTS[slot.species_id] ?? ''}
                         </Typography>
                         <Button
