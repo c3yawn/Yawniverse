@@ -207,7 +207,6 @@ export default function CreaturePage() {
           <Box sx={{ height: 120, background: worldCfg.gradient, position: 'relative' }}>
             <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(6,4,20,0.95) 100%)' }} />
 
-            {/* Sprite placeholder — replaced with actual art later */}
             <Box
               sx={{
                 position: 'absolute',
@@ -217,11 +216,20 @@ export default function CreaturePage() {
                 width: 72,
                 height: 72,
                 borderRadius: '50%',
-                background: `radial-gradient(circle at 35% 35%, ${worldCfg.accent}88, ${worldCfg.accent}22)`,
                 border: `2px solid ${worldCfg.accent}66`,
                 boxShadow: `0 0 24px ${worldCfg.accent}44`,
+                overflow: 'hidden',
+                background: `radial-gradient(circle at 35% 35%, ${worldCfg.accent}88, ${worldCfg.accent}22)`,
               }}
-            />
+            >
+              {spriteUrl && (
+                <img
+                  src={spriteUrl}
+                  alt={displayName}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
+              )}
+            </Box>
           </Box>
 
           <Box
