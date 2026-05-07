@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Container, Grid, Typography, Card, Chip, Button, Skeleton } from '@mui/material';
+import { Box, Container, Grid, Typography, Card, Chip, Button, Skeleton, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CheckIcon from '@mui/icons-material/Check';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import NebulaBackground from '../components/NebulaBackground';
@@ -22,8 +24,17 @@ const WORLD_CONFIG = {
 
 function CreatureCard({ creature }) {
   const navigate = useNavigate();
+  const [copied, setCopied] = useState(false);
   const rarity = RARITY_CONFIG[creature.species?.rarity] ?? RARITY_CONFIG.common;
   const world = WORLD_CONFIG[creature.species_biome] ?? WORLD_CONFIG.umihotaru;
+
+  function handleCopy(e) {
+    e.stopPropagation();
+    const url = `${window.location.origin}${import.meta.env.BASE_URL}arcadia/creature/${creature.id}`;
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
 
   return (
     <Card
@@ -85,33 +96,48 @@ function CreatureCard({ creature }) {
           {creature.species?.name}
         </Typography>
 
-        <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
-          <Chip
-            label={creature.stage}
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 1 }}>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Chip
+              label={creature.stage}
+              size="small"
+              sx={{
+                fontSize: '0.62rem',
+                height: 18,
+                fontFamily: '"Raleway", sans-serif',
+                textTransform: 'capitalize',
+                color: '#94a3b8',
+                background: 'rgba(148,163,184,0.1)',
+                border: '1px solid rgba(148,163,184,0.2)',
+              }}
+            />
+            <Chip
+              label={creature.gender}
+              size="small"
+              sx={{
+                fontSize: '0.62rem',
+                height: 18,
+                fontFamily: '"Raleway", sans-serif',
+                textTransform: 'capitalize',
+                color: '#94a3b8',
+                background: 'rgba(148,163,184,0.1)',
+                border: '1px solid rgba(148,163,184,0.2)',
+              }}
+            />
+          </Box>
+          <IconButton
             size="small"
+            onClick={handleCopy}
             sx={{
-              fontSize: '0.62rem',
-              height: 18,
-              fontFamily: '"Raleway", sans-serif',
-              textTransform: 'capitalize',
-              color: '#94a3b8',
-              background: 'rgba(148,163,184,0.1)',
-              border: '1px solid rgba(148,163,184,0.2)',
+              color: copied ? '#4ade80' : '#475569',
+              transition: 'color 0.2s ease',
+              '&:hover': { color: copied ? '#4ade80' : '#94a3b8', background: 'transparent' },
             }}
-          />
-          <Chip
-            label={creature.gender}
-            size="small"
-            sx={{
-              fontSize: '0.62rem',
-              height: 18,
-              fontFamily: '"Raleway", sans-serif',
-              textTransform: 'capitalize',
-              color: '#94a3b8',
-              background: 'rgba(148,163,184,0.1)',
-              border: '1px solid rgba(148,163,184,0.2)',
-            }}
-          />
+          >
+            {copied
+              ? <CheckIcon sx={{ fontSize: '0.85rem' }} />
+              : <ContentCopyIcon sx={{ fontSize: '0.85rem' }} />}
+          </IconButton>
         </Box>
       </Box>
     </Card>

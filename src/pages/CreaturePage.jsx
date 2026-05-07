@@ -133,7 +133,7 @@ export default function CreaturePage() {
   // Build OG values — used once creature data is loaded
   const displayName = creature?.name ?? creature?.species?.name ?? 'Unknown';
   const spriteUrl = creature
-    ? `${SUPABASE_URL}/functions/v1/creature-sprite/${creatureId}`
+    ? `${SUPABASE_URL}/functions/v1/creature-sprite/${creatureId}?stage=${creature.stage}`
     : null;
   const pageUrl = `https://c3yawn.github.io/Yawniverse/arcadia/creature/${creatureId}`;
   const ogTitle = creature
