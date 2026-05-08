@@ -80,7 +80,7 @@ export default function CreaturePage() {
         .from('creatures')
         .select(`
           id, name, gender, stage, generation, views, unique_views,
-          is_cave_born, adopted_at, hatched_at, grew_up_at,
+          is_cave_born, is_shiny, adopted_at, hatched_at, grew_up_at,
           owner_id,
           species:species_id ( id, name, rarity, description )
         `)
@@ -219,7 +219,11 @@ export default function CreaturePage() {
               <img
                 src={spriteUrl}
                 alt={displayName}
-                style={{ height: 88, width: 88, objectFit: 'contain', imageRendering: 'pixelated', position: 'relative', zIndex: 1 }}
+                style={{
+                  height: 88, width: 88, objectFit: 'contain', imageRendering: 'pixelated',
+                  position: 'relative', zIndex: 1,
+                  filter: creature.is_shiny ? 'sepia(0.4) saturate(4) hue-rotate(15deg) brightness(1.15)' : 'none',
+                }}
               />
             )}
           </Box>
@@ -283,16 +287,25 @@ export default function CreaturePage() {
             )}
 
             <Box sx={{ display: 'flex', gap: 1, mt: 1, flexWrap: 'wrap' }}>
+              {creature.is_shiny && (
+                <Chip
+                  label="✦ Shiny"
+                  size="small"
+                  sx={{
+                    fontSize: '0.65rem', height: 20,
+                    fontFamily: '"Raleway", sans-serif', fontWeight: 700,
+                    color: '#fbbf24', background: 'rgba(251,191,36,0.12)',
+                    border: '1px solid rgba(251,191,36,0.4)',
+                  }}
+                />
+              )}
               <Chip
                 label={rarity.label}
                 size="small"
                 sx={{
-                  fontSize: '0.65rem',
-                  height: 20,
-                  fontFamily: '"Raleway", sans-serif',
-                  fontWeight: 700,
-                  color: rarity.color,
-                  background: `${rarity.color}18`,
+                  fontSize: '0.65rem', height: 20,
+                  fontFamily: '"Raleway", sans-serif', fontWeight: 700,
+                  color: rarity.color, background: `${rarity.color}18`,
                   border: `1px solid ${rarity.color}44`,
                 }}
               />
@@ -300,11 +313,9 @@ export default function CreaturePage() {
                 label={worldCfg.label}
                 size="small"
                 sx={{
-                  fontSize: '0.65rem',
-                  height: 20,
+                  fontSize: '0.65rem', height: 20,
                   fontFamily: '"Raleway", sans-serif',
-                  color: worldCfg.accent,
-                  background: `${worldCfg.accent}18`,
+                  color: worldCfg.accent, background: `${worldCfg.accent}18`,
                   border: `1px solid ${worldCfg.accent}44`,
                 }}
               />

@@ -28,11 +28,14 @@ const WORLD_CONFIG = {
   janus:     { gradient: 'linear-gradient(90deg, #7f1d1d 0%, #3b0000 45%, #001233 55%, #1e3a5f 100%)', accent: '#ef4444' },
 };
 
+const SHINY_FILTER = 'sepia(0.4) saturate(4) hue-rotate(15deg) brightness(1.15)';
+
 function CreatureCard({ creature }) {
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
   const rarity = RARITY_CONFIG[creature.species?.rarity] ?? RARITY_CONFIG.common;
   const world = WORLD_CONFIG[creature.species_biome] ?? WORLD_CONFIG.umihotaru;
+  const hoverColor = creature.is_shiny ? '#fbbf24' : rarity.color;
 
   function handleCopy(e) {
     e.stopPropagation();
@@ -48,15 +51,15 @@ function CreatureCard({ creature }) {
       sx={{
         background: 'rgba(6, 4, 20, 0.88)',
         backdropFilter: 'blur(20px)',
-        border: '1px solid rgba(124,58,237,0.12)',
+        border: creature.is_shiny ? '1px solid rgba(251,191,36,0.25)' : '1px solid rgba(124,58,237,0.12)',
         borderRadius: 2.5,
         overflow: 'hidden',
         cursor: 'pointer',
         transition: 'box-shadow 0.22s ease, transform 0.22s ease',
         '&:hover': {
           transform: 'translateY(-3px)',
-          boxShadow: `0 0 24px ${rarity.color}33`,
-          borderColor: `${rarity.color}33`,
+          boxShadow: `0 0 24px ${hoverColor}44`,
+          borderColor: `${hoverColor}44`,
         },
       }}
     >
@@ -64,91 +67,54 @@ function CreatureCard({ creature }) {
         <img
           src={spriteUrl(creature.species_id, creature.stage)}
           alt={creature.species?.name}
-          style={{ height: 64, width: 64, objectFit: 'contain', imageRendering: 'pixelated' }}
+          style={{
+            height: 64, width: 64, objectFit: 'contain', imageRendering: 'pixelated',
+            filter: creature.is_shiny ? SHINY_FILTER : 'none',
+          }}
         />
       </Box>
       <Box sx={{ p: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 0.5 }}>
-          <Typography
-            sx={{
-              fontFamily: '"Cinzel", serif',
-              fontWeight: 700,
-              fontSize: '0.95rem',
-              color: '#e2e8f0',
-            }}
-          >
+          <Typography sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '0.95rem', color: '#e2e8f0' }}>
             {creature.name ?? creature.species?.name ?? 'Unknown'}
           </Typography>
-          <Chip
-            label={rarity.label}
-            size="small"
-            sx={{
-              fontSize: '0.62rem',
-              height: 20,
-              fontFamily: '"Raleway", sans-serif',
-              fontWeight: 700,
-              color: rarity.color,
-              background: `${rarity.color}18`,
-              border: `1px solid ${rarity.color}44`,
-              flexShrink: 0,
-              ml: 1,
-            }}
-          />
+          <Box sx={{ display: 'flex', gap: 0.5, flexShrink: 0, ml: 1 }}>
+            {creature.is_shiny && (
+              <Chip
+                label="✦ Shiny"
+                size="small"
+                sx={{
+                  fontSize: '0.62rem', height: 20,
+                  fontFamily: '"Raleway", sans-serif', fontWeight: 700,
+                  color: '#fbbf24', background: 'rgba(251,191,36,0.12)',
+                  border: '1px solid rgba(251,191,36,0.4)',
+                }}
+              />
+            )}
+            <Chip
+              label={rarity.label}
+              size="small"
+              sx={{
+                fontSize: '0.62rem', height: 20,
+                fontFamily: '"Raleway", sans-serif', fontWeight: 700,
+                color: rarity.color, background: `${rarity.color}18`,
+                border: `1px solid ${rarity.color}44`,
+              }}
+            />
+          </Box>
         </Box>
 
-        <Typography
-          sx={{
-            fontSize: '0.75rem',
-            color: '#94a3b8',
-            fontFamily: '"Raleway", sans-serif',
-            textTransform: 'capitalize',
-            mb: 0.5,
-          }}
-        >
+        <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', fontFamily: '"Raleway", sans-serif', textTransform: 'capitalize', mb: 0.5 }}>
           {creature.species?.name}
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 1 }}>
           <Box sx={{ display: 'flex', gap: 1 }}>
-            <Chip
-              label={creature.stage}
-              size="small"
-              sx={{
-                fontSize: '0.62rem',
-                height: 18,
-                fontFamily: '"Raleway", sans-serif',
-                textTransform: 'capitalize',
-                color: '#94a3b8',
-                background: 'rgba(148,163,184,0.1)',
-                border: '1px solid rgba(148,163,184,0.2)',
-              }}
-            />
-            <Chip
-              label={creature.gender}
-              size="small"
-              sx={{
-                fontSize: '0.62rem',
-                height: 18,
-                fontFamily: '"Raleway", sans-serif',
-                textTransform: 'capitalize',
-                color: '#94a3b8',
-                background: 'rgba(148,163,184,0.1)',
-                border: '1px solid rgba(148,163,184,0.2)',
-              }}
-            />
+            <Chip label={creature.stage} size="small" sx={{ fontSize: '0.62rem', height: 18, fontFamily: '"Raleway", sans-serif', textTransform: 'capitalize', color: '#94a3b8', background: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.2)' }} />
+            <Chip label={creature.gender} size="small" sx={{ fontSize: '0.62rem', height: 18, fontFamily: '"Raleway", sans-serif', textTransform: 'capitalize', color: '#94a3b8', background: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.2)' }} />
           </Box>
-          <IconButton
-            size="small"
-            onClick={handleCopy}
-            sx={{
-              color: copied ? '#4ade80' : '#475569',
-              transition: 'color 0.2s ease',
-              '&:hover': { color: copied ? '#4ade80' : '#94a3b8', background: 'transparent' },
-            }}
-          >
-            {copied
-              ? <CheckIcon sx={{ fontSize: '0.85rem' }} />
-              : <ContentCopyIcon sx={{ fontSize: '0.85rem' }} />}
+          <IconButton size="small" onClick={handleCopy} sx={{ color: copied ? '#4ade80' : '#475569', transition: 'color 0.2s ease', '&:hover': { color: copied ? '#4ade80' : '#94a3b8', background: 'transparent' } }}>
+            {copied ? <CheckIcon sx={{ fontSize: '0.85rem' }} /> : <ContentCopyIcon sx={{ fontSize: '0.85rem' }} />}
           </IconButton>
         </Box>
       </Box>
@@ -181,7 +147,7 @@ export default function ViviariumPage() {
       .from('creatures')
       .select(`
         id, name, gender, stage, adopted_at,
-        species_id,
+        species_id, is_shiny,
         species:species_id ( name, rarity )
       `)
       .eq('owner_id', user.id)

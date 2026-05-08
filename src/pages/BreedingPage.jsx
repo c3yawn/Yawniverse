@@ -51,7 +51,7 @@ function CreatureCard({ creature, selected, onSelect, disabled }) {
         backdropFilter: 'blur(20px)',
         border: selected
           ? `1px solid ${world.accent}99`
-          : '1px solid rgba(124,58,237,0.12)',
+          : creature.is_shiny ? '1px solid rgba(251,191,36,0.25)' : '1px solid rgba(124,58,237,0.12)',
         borderRadius: 2.5,
         overflow: 'hidden',
         cursor: onCooldown || disabled ? 'default' : 'pointer',
@@ -83,11 +83,15 @@ function CreatureCard({ creature, selected, onSelect, disabled }) {
           <Typography sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '0.88rem', color: '#e2e8f0' }}>
             {creature.name ?? creature.species?.name ?? 'Unknown'}
           </Typography>
-          <Chip label={rarity.label} size="small" sx={{
-            fontSize: '0.6rem', height: 18, fontFamily: '"Raleway", sans-serif', fontWeight: 700,
-            color: rarity.color, background: `${rarity.color}18`, border: `1px solid ${rarity.color}44`,
-            flexShrink: 0, ml: 0.5,
-          }} />
+          <Box sx={{ display: 'flex', gap: 0.5, flexShrink: 0, ml: 0.5 }}>
+            {creature.is_shiny && (
+              <Chip label="✦" size="small" sx={{ fontSize: '0.6rem', height: 18, fontFamily: '"Raleway", sans-serif', fontWeight: 700, color: '#fbbf24', background: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.4)', minWidth: 0, px: 0.5 }} />
+            )}
+            <Chip label={rarity.label} size="small" sx={{
+              fontSize: '0.6rem', height: 18, fontFamily: '"Raleway", sans-serif', fontWeight: 700,
+              color: rarity.color, background: `${rarity.color}18`, border: `1px solid ${rarity.color}44`,
+            }} />
+          </Box>
         </Box>
         <Typography sx={{ fontSize: '0.72rem', color: '#94a3b8', fontFamily: '"Raleway", sans-serif', mb: 0.5 }}>
           {creature.species?.name} · Gen {creature.generation}
@@ -119,7 +123,7 @@ export default function BreedingPage() {
     supabase
       .from('creatures')
       .select(`
-        id, name, gender, generation, breed_cooldown_until, species_id,
+        id, name, gender, generation, breed_cooldown_until, species_id, is_shiny,
         species:species_id ( name, rarity )
       `)
       .eq('owner_id', user.id)
@@ -169,14 +173,13 @@ export default function BreedingPage() {
       return;
     }
 
-    // Fetch offspring species name for result screen
     const { data: offspring } = await supabase
       .from('creatures')
-      .select('id, species:species_id ( name )')
+      .select('id, is_shiny, species:species_id ( name )')
       .eq('id', data)
       .single();
 
-    setResult({ offspringId: data, speciesName: offspring?.species?.name ?? 'Unknown' });
+    setResult({ offspringId: data, speciesName: offspring?.species?.name ?? 'Unknown', isShiny: offspring?.is_shiny ?? false });
     setBreeding(false);
   }
 
@@ -226,7 +229,12 @@ export default function BreedingPage() {
         {/* Result screen */}
         {result && (
           <Box sx={{ textAlign: 'center', py: 8 }}>
-            <Typography sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '1.4rem', color: '#e2e8f0', mb: 1 }}>
+            {result.isShiny && (
+              <Typography sx={{ fontFamily: '"Cinzel", serif', fontSize: '0.8rem', letterSpacing: '0.2em', color: '#fbbf24', mb: 1.5, filter: 'drop-shadow(0 0 8px rgba(251,191,36,0.6))' }}>
+                ✦ &nbsp; A SHINY EGG &nbsp; ✦
+              </Typography>
+            )}
+            <Typography sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '1.4rem', color: result.isShiny ? '#fbbf24' : '#e2e8f0', mb: 1, filter: result.isShiny ? 'drop-shadow(0 0 12px rgba(251,191,36,0.4))' : 'none' }}>
               A {result.speciesName} egg appeared.
             </Typography>
             <Typography sx={{ color: '#94a3b8', fontFamily: '"Raleway", sans-serif', fontSize: '0.88rem', mb: 5 }}>
