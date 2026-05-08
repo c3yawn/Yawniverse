@@ -116,6 +116,18 @@ export default function Navbar() {
                 </MenuItem>
                 <Divider sx={{ borderColor: 'rgba(124,58,237,0.12)', my: 0.5 }} />
                 <MenuItem
+                  onClick={() => { navigate('/arcadia/profile'); setMenuAnchor(null); }}
+                  sx={{
+                    fontSize: '0.82rem',
+                    fontFamily: '"Raleway", sans-serif',
+                    color: '#94a3b8',
+                    '&:hover': { color: '#e2e8f0', background: 'rgba(124,58,237,0.1)' },
+                  }}
+                >
+                  Profile
+                </MenuItem>
+                <Divider sx={{ borderColor: 'rgba(124,58,237,0.12)', my: 0.5 }} />
+                <MenuItem
                   onClick={() => { signOut(); setMenuAnchor(null); }}
                   sx={{
                     fontSize: '0.82rem',
