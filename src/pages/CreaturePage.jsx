@@ -67,6 +67,8 @@ export default function CreaturePage() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
+  const [owner, setOwner] = useState(null);
+
   const [editing, setEditing] = useState(false);
   const [nameInput, setNameInput] = useState('');
   const [nameSaving, setNameSaving] = useState(false);
@@ -94,7 +96,14 @@ export default function CreaturePage() {
         .limit(1)
         .single();
 
+      const { data: ownerProfile } = await supabase
+        .from('profiles')
+        .select('username, display_name')
+        .eq('id', data.owner_id)
+        .single();
+
       setCreature(data);
+      setOwner(ownerProfile ?? null);
       setNameInput(data.name ?? '');
       setWorld(biomeRows?.biome_id ?? 'umihotaru');
       setLoading(false);
@@ -338,6 +347,19 @@ export default function CreaturePage() {
           <StatRow label="Origin" value={creature.is_cave_born ? 'Wild egg' : 'Bred'} />
           <StatRow label="Adopted" value={adoptedDate} />
           <StatRow label="Views" value={creature.views.toLocaleString()} valueColor="#94a3b8" />
+          {owner?.username && (
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 1.25 }}>
+              <Typography sx={{ fontFamily: '"Raleway", sans-serif', fontSize: '0.8rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                Owner
+              </Typography>
+              <Typography
+                onClick={() => navigate(`/arcadia/user/${owner.username}`)}
+                sx={{ fontFamily: '"Raleway", sans-serif', fontSize: '0.88rem', color: '#a78bfa', cursor: 'pointer', '&:hover': { color: '#c4b5fd' } }}
+              >
+                @{owner.username}
+              </Typography>
+            </Box>
+          )}
         </Box>
 
         {/* Owner name hint */}
