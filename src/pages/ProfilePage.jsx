@@ -8,6 +8,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import NebulaBackground from '../components/NebulaBackground';
@@ -36,6 +37,7 @@ export default function ProfilePage() {
   const [displayInput, setDisplayInput] = useState('');
   const [displaySaving, setDisplaySaving] = useState(false);
   const [displayError, setDisplayError] = useState('');
+  const [copiedProfile, setCopiedProfile] = useState(false);
 
   const avatarSrc = profile?.avatar_url ?? user?.user_metadata?.avatar_url ?? undefined;
   const displayName = profile?.display_name || profile?.username || user?.user_metadata?.full_name || '';
@@ -61,6 +63,13 @@ export default function ProfilePage() {
         setLoadingStats(false);
       });
   }, [user]);
+
+  function copyProfileLink() {
+    const url = `${window.location.origin}${import.meta.env.BASE_URL}arcadia/user/${profile?.username}`;
+    navigator.clipboard.writeText(url);
+    setCopiedProfile(true);
+    setTimeout(() => setCopiedProfile(false), 2000);
+  }
 
   function startEditDisplay() {
     setDisplayInput(profile?.display_name ?? '');
@@ -213,6 +222,29 @@ export default function ProfilePage() {
             )}
           </Box>
         </Box>
+
+        {/* Share profile link */}
+        {profile?.username && (
+          <Button
+            onClick={copyProfileLink}
+            startIcon={copiedProfile ? <CheckIcon sx={{ fontSize: '0.85rem !important' }} /> : <ContentCopyIcon sx={{ fontSize: '0.85rem !important' }} />}
+            variant="outlined"
+            size="small"
+            sx={{
+              mb: 3,
+              fontFamily: '"Raleway", sans-serif',
+              fontWeight: 600,
+              fontSize: '0.78rem',
+              color: copiedProfile ? '#4ade80' : '#64748b',
+              borderColor: copiedProfile ? 'rgba(74,222,128,0.35)' : 'rgba(255,255,255,0.08)',
+              textTransform: 'none',
+              transition: 'color 0.2s, border-color 0.2s',
+              '&:hover': { color: copiedProfile ? '#4ade80' : '#94a3b8', borderColor: copiedProfile ? 'rgba(74,222,128,0.55)' : 'rgba(255,255,255,0.18)', background: 'transparent' },
+            }}
+          >
+            {copiedProfile ? 'Copied!' : 'Copy public profile link'}
+          </Button>
+        )}
 
         {/* Creature stats */}
         <Box

@@ -12,6 +12,7 @@ import ViviariumPage from './pages/ViviariumPage';
 import CreaturePage from './pages/CreaturePage';
 import BreedingPage from './pages/BreedingPage';
 import ProfilePage from './pages/ProfilePage';
+import PublicProfilePage from './pages/PublicProfilePage';
 import Navbar from './components/Navbar';
 import { useAuth } from './context/AuthContext';
 
@@ -45,6 +46,7 @@ export default function App() {
           <Route path="/arcadia/creature/:creatureId" element={<CreaturePage />} />
           <Route path="/arcadia/breeding" element={<BreedingPage />} />
           <Route path="/arcadia/profile" element={<ProfilePage />} />
+          <Route path="/arcadia/user/:username" element={<PublicProfilePage />} />
           {/* Redirects from old /creatures routes */}
           <Route path="/creatures" element={<Navigate to="/arcadia" replace />} />
           <Route path="/creatures/world/:worldId" element={<Navigate to="/arcadia" replace />} />
