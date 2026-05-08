@@ -190,22 +190,22 @@ export default function ArcadiaPage() {
             {user ? (
               <Button
                 onClick={() => navigate('/arcadia/vivarium')}
-                variant="outlined"
                 sx={{
                   fontFamily: '"Cinzel", serif',
                   fontWeight: 700,
                   fontSize: '0.8rem',
                   letterSpacing: '0.12em',
-                  color: '#a78bfa',
-                  borderColor: 'rgba(167,139,250,0.4)',
+                  color: '#e2e8f0',
+                  background: 'linear-gradient(rgba(6,4,20,0.92), rgba(6,4,20,0.92)) padding-box, linear-gradient(135deg, #a78bfa 0%, #38bdf8 100%) border-box',
+                  border: '1.5px solid transparent',
+                  borderRadius: '6px',
                   px: 3.5,
                   py: 1.1,
-                  borderRadius: '6px',
                   textTransform: 'none',
+                  transition: 'box-shadow 0.2s ease',
                   '&:hover': {
-                    borderColor: '#a78bfa',
-                    background: 'rgba(167,139,250,0.08)',
-                    boxShadow: '0 0 20px rgba(167,139,250,0.2)',
+                    background: 'linear-gradient(rgba(10,6,28,0.96), rgba(10,6,28,0.96)) padding-box, linear-gradient(135deg, #c084fc 0%, #38bdf8 100%) border-box',
+                    boxShadow: '0 0 22px rgba(167,139,250,0.25)',
                   },
                 }}
               >

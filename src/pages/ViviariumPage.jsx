@@ -4,6 +4,7 @@ import { Box, Container, Grid, Typography, Card, Chip, Button, Skeleton, IconBut
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckIcon from '@mui/icons-material/Check';
+import WorldAtmosphere from '../components/WorldAtmosphere';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
@@ -63,15 +64,20 @@ function CreatureCard({ creature }) {
         },
       }}
     >
-      <Box sx={{ height: 80, background: world.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <img
-          src={spriteUrl(creature.species_id, creature.stage)}
-          alt={creature.species?.name}
-          style={{
-            height: 64, width: 64, objectFit: 'contain', imageRendering: 'pixelated',
-            filter: creature.is_shiny ? SHINY_FILTER : 'none',
-          }}
-        />
+      <Box sx={{ height: 120, position: 'relative', overflow: 'hidden', background: '#06040e' }}>
+        <Box sx={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 100%, ${world.accent}2a 0%, transparent 62%)` }} />
+        <WorldAtmosphere worldId={creature.species_biome} />
+        <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}>
+          <img
+            src={spriteUrl(creature.species_id, creature.stage)}
+            alt={creature.species?.name}
+            style={{
+              height: 72, width: 72, objectFit: 'contain', imageRendering: 'pixelated',
+              filter: `drop-shadow(0 2px 10px ${world.accent}99)${creature.is_shiny ? ` ${SHINY_FILTER}` : ''}`,
+            }}
+          />
+        </Box>
+        <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '42%', background: 'linear-gradient(to bottom, transparent, rgba(6,4,20,0.96))', zIndex: 3, pointerEvents: 'none' }} />
       </Box>
       <Box sx={{ p: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 0.5 }}>
@@ -213,18 +219,21 @@ export default function ViviariumPage() {
           {user && (
             <Button
               onClick={() => navigate('/arcadia/breeding')}
-              variant="outlined"
               sx={{
                 fontFamily: '"Cinzel", serif',
                 fontWeight: 700,
                 fontSize: '0.75rem',
                 letterSpacing: '0.1em',
-                color: '#a78bfa',
-                borderColor: 'rgba(167,139,250,0.3)',
+                color: '#e2e8f0',
+                background: 'linear-gradient(rgba(6,4,20,0.92), rgba(6,4,20,0.92)) padding-box, linear-gradient(135deg, #a78bfa 0%, #38bdf8 100%) border-box',
+                border: '1.5px solid transparent',
+                borderRadius: '6px',
                 px: 2.5,
                 py: 0.9,
                 alignSelf: 'flex-start',
-                '&:hover': { borderColor: '#a78bfa', background: 'rgba(167,139,250,0.08)' },
+                textTransform: 'none',
+                transition: 'box-shadow 0.2s ease',
+                '&:hover': { background: 'linear-gradient(rgba(10,6,28,0.96), rgba(10,6,28,0.96)) padding-box, linear-gradient(135deg, #c084fc 0%, #38bdf8 100%) border-box', boxShadow: '0 0 18px rgba(167,139,250,0.2)' },
               }}
             >
               Breeding
@@ -251,14 +260,19 @@ export default function ViviariumPage() {
             </Typography>
             <Button
               onClick={() => navigate('/arcadia')}
-              variant="outlined"
               sx={{
                 fontFamily: '"Cinzel", serif',
                 fontWeight: 700,
                 fontSize: '0.8rem',
-                color: '#a78bfa',
-                borderColor: 'rgba(167,139,250,0.4)',
-                '&:hover': { borderColor: '#a78bfa', background: 'rgba(167,139,250,0.08)' },
+                color: '#e2e8f0',
+                background: 'linear-gradient(rgba(6,4,20,0.92), rgba(6,4,20,0.92)) padding-box, linear-gradient(135deg, #a78bfa 0%, #38bdf8 100%) border-box',
+                border: '1.5px solid transparent',
+                borderRadius: '6px',
+                px: 3,
+                py: 1,
+                textTransform: 'none',
+                transition: 'box-shadow 0.2s ease',
+                '&:hover': { background: 'linear-gradient(rgba(10,6,28,0.96), rgba(10,6,28,0.96)) padding-box, linear-gradient(135deg, #c084fc 0%, #38bdf8 100%) border-box', boxShadow: '0 0 18px rgba(167,139,250,0.2)' },
               }}
             >
               Back to Arcadia

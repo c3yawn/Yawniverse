@@ -10,6 +10,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckIcon from '@mui/icons-material/Check';
 import { supabase } from '../lib/supabase';
 import NebulaBackground from '../components/NebulaBackground';
+import WorldAtmosphere from '../components/WorldAtmosphere';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SHINY_FILTER = 'sepia(0.4) saturate(4) hue-rotate(15deg) brightness(1.15)';
@@ -65,12 +66,20 @@ function CreatureCard({ creature }) {
         },
       }}
     >
-      <Box sx={{ height: 80, background: world.gradient, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <img
-          src={spriteUrl(creature.species_id, creature.stage)}
-          alt={creature.species?.name}
-          style={{ height: 64, width: 64, objectFit: 'contain', imageRendering: 'pixelated', filter: creature.is_shiny ? SHINY_FILTER : 'none' }}
-        />
+      <Box sx={{ height: 120, position: 'relative', overflow: 'hidden', background: '#06040e' }}>
+        <Box sx={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 100%, ${world.accent}2a 0%, transparent 62%)` }} />
+        <WorldAtmosphere worldId={creature.species_biome} />
+        <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}>
+          <img
+            src={spriteUrl(creature.species_id, creature.stage)}
+            alt={creature.species?.name}
+            style={{
+              height: 72, width: 72, objectFit: 'contain', imageRendering: 'pixelated',
+              filter: `drop-shadow(0 2px 10px ${world.accent}99)${creature.is_shiny ? ` ${SHINY_FILTER}` : ''}`,
+            }}
+          />
+        </Box>
+        <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '42%', background: 'linear-gradient(to bottom, transparent, rgba(6,4,20,0.96))', zIndex: 3, pointerEvents: 'none' }} />
       </Box>
       <Box sx={{ p: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 0.5 }}>

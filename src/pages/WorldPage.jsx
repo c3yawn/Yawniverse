@@ -5,6 +5,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import NebulaBackground from '../components/NebulaBackground';
+import WorldAtmosphere from '../components/WorldAtmosphere';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
@@ -229,8 +230,14 @@ export default function WorldPage() {
             <Typography sx={{ color: '#94a3b8', fontFamily: '"Raleway", sans-serif', fontSize: '0.88rem', mb: 3 }}>
               You have {eggCount} eggs. Wait for some to hatch before taking another.
             </Typography>
-            <Button onClick={() => navigate('/arcadia/vivarium')} variant="outlined"
-              sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.1em', color: '#94a3b8', borderColor: 'rgba(148,163,184,0.3)', textTransform: 'none', '&:hover': { borderColor: '#94a3b8', background: 'rgba(148,163,184,0.06)' } }}>
+            <Button onClick={() => navigate('/arcadia/vivarium')}
+              sx={{ fontFamily: '"Cinzel", serif', fontWeight: 700, fontSize: '0.78rem', letterSpacing: '0.1em', textTransform: 'none',
+                color: '#e2e8f0',
+                background: 'linear-gradient(rgba(6,4,20,0.92), rgba(6,4,20,0.92)) padding-box, linear-gradient(135deg, #a78bfa 0%, #38bdf8 100%) border-box',
+                border: '1.5px solid transparent', borderRadius: '6px', px: 3, py: 1,
+                transition: 'box-shadow 0.2s ease',
+                '&:hover': { background: 'linear-gradient(rgba(10,6,28,0.96), rgba(10,6,28,0.96)) padding-box, linear-gradient(135deg, #c084fc 0%, #38bdf8 100%) border-box', boxShadow: '0 0 18px rgba(167,139,250,0.2)' },
+              }}>
               View Vivarium
             </Button>
           </Box>
@@ -291,8 +298,13 @@ export default function WorldPage() {
                       transition: 'box-shadow 0.2s ease',
                       '&:hover': { boxShadow: `0 0 24px ${config.glow}`, borderColor: `${rarity.color}44` },
                     }}>
-                      <Box sx={{ height: 80, background: config.gradient, opacity: 0.9, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <img src={eggSpriteUrl(slot.species_id)} alt={slot.species?.name} style={{ height: 64, width: 64, objectFit: 'contain' }} />
+                      <Box sx={{ height: 120, position: 'relative', overflow: 'hidden', background: '#06040e' }}>
+                        <Box sx={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 100%, ${config.accent}28 0%, transparent 62%)` }} />
+                        <WorldAtmosphere worldId={worldId} />
+                        <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }}>
+                          <img src={eggSpriteUrl(slot.species_id)} alt={slot.species?.name} style={{ height: 72, width: 72, objectFit: 'contain', filter: `drop-shadow(0 2px 10px ${config.accent}99)` }} />
+                        </Box>
+                        <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '42%', background: 'linear-gradient(to bottom, transparent, rgba(6,4,20,0.96))', zIndex: 3, pointerEvents: 'none' }} />
                       </Box>
                       <Box sx={{ p: 2, display: 'flex', flexDirection: 'column', flex: 1 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}>
