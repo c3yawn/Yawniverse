@@ -28,9 +28,9 @@ export default function Navbar() {
               fontFamily: '"Cinzel", serif',
               fontWeight: 700,
               letterSpacing: '0.18em',
-              color: '#a78bfa',
+              color: '#e2e8f0',
               fontSize: '0.92rem',
-              textShadow: '0 0 20px rgba(167, 139, 250, 0.5)',
+              textShadow: '0 0 24px rgba(255,255,255,0.12)',
               flexGrow: 1,
               cursor: 'pointer',
             }}

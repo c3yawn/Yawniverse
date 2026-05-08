@@ -131,7 +131,7 @@ export default function ProfilePage() {
           sx={{
             background: 'rgba(6,4,20,0.92)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(124,58,237,0.12)',
+            border: '1px solid rgba(255,255,255,0.07)',
             borderRadius: 3,
             p: { xs: 3, sm: 4 },
             mb: 3,
@@ -169,7 +169,7 @@ export default function ProfilePage() {
             </Box>
           </Box>
 
-          <Divider sx={{ borderColor: 'rgba(124,58,237,0.08)', mb: 3 }} />
+          <Divider sx={{ borderColor: 'rgba(255,255,255,0.06)', mb: 3 }} />
 
           {/* Display name row */}
           <Box>
@@ -251,7 +251,7 @@ export default function ProfilePage() {
           sx={{
             background: 'rgba(6,4,20,0.92)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(124,58,237,0.12)',
+            border: '1px solid rgba(255,255,255,0.07)',
             borderRadius: 3,
             p: { xs: 3, sm: 4 },
             mb: 3,
@@ -299,7 +299,7 @@ export default function ProfilePage() {
           sx={{
             background: 'rgba(6,4,20,0.92)',
             backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(124,58,237,0.08)',
+            border: '1px solid rgba(255,255,255,0.05)',
             borderRadius: 3,
             p: { xs: 3, sm: 4 },
           }}

@@ -112,7 +112,7 @@ export default function SignInModal({ open, onClose }) {
           </Button>
         </Box>
 
-        <Divider sx={{ my: 3, borderColor: 'rgba(124,58,237,0.12)' }} />
+        <Divider sx={{ my: 3, borderColor: 'rgba(255,255,255,0.07)' }} />
 
         <Typography
           variant="caption"

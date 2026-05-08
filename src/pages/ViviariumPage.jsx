@@ -51,7 +51,7 @@ function CreatureCard({ creature }) {
       sx={{
         background: 'rgba(6, 4, 20, 0.88)',
         backdropFilter: 'blur(20px)',
-        border: creature.is_shiny ? '1px solid rgba(251,191,36,0.25)' : '1px solid rgba(124,58,237,0.12)',
+        border: creature.is_shiny ? '1px solid rgba(251,191,36,0.25)' : '1px solid rgba(255,255,255,0.07)',
         borderRadius: 2.5,
         overflow: 'hidden',
         cursor: 'pointer',
@@ -124,11 +124,11 @@ function CreatureCard({ creature }) {
 
 function SkeletonCard() {
   return (
-    <Card sx={{ background: 'rgba(6,4,20,0.88)', border: '1px solid rgba(124,58,237,0.08)', borderRadius: 2.5, overflow: 'hidden' }}>
-      <Skeleton variant="rectangular" height={80} sx={{ bgcolor: 'rgba(124,58,237,0.08)' }} />
+    <Card sx={{ background: 'rgba(6,4,20,0.88)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 2.5, overflow: 'hidden' }}>
+      <Skeleton variant="rectangular" height={80} sx={{ bgcolor: 'rgba(255,255,255,0.05)' }} />
       <Box sx={{ p: 2 }}>
-        <Skeleton width="60%" height={20} sx={{ bgcolor: 'rgba(124,58,237,0.08)', mb: 1 }} />
-        <Skeleton width="40%" height={16} sx={{ bgcolor: 'rgba(124,58,237,0.08)' }} />
+        <Skeleton width="60%" height={20} sx={{ bgcolor: 'rgba(255,255,255,0.05)', mb: 1 }} />
+        <Skeleton width="40%" height={16} sx={{ bgcolor: 'rgba(255,255,255,0.05)' }} />
       </Box>
     </Card>
   );
@@ -196,10 +196,9 @@ export default function ViviariumPage() {
               fontFamily: '"Cinzel", serif',
               fontWeight: 700,
               fontSize: { xs: '1.6rem', md: '2.2rem' },
-              background: 'linear-gradient(135deg, #0d9488, #7c3aed, #f59e0b)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              filter: 'drop-shadow(0 0 18px rgba(124,58,237,0.35))',
+              color: '#f1f5f9',
+              filter: 'drop-shadow(0 0 18px rgba(167,139,250,0.35))',
+              letterSpacing: '-0.01em',
               mb: 0.5,
             }}
           >

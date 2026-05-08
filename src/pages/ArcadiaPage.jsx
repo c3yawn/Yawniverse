@@ -146,13 +146,12 @@ export default function ArcadiaPage() {
             sx={{
               fontFamily: '"Cinzel", serif',
               fontWeight: 700,
-              fontSize: { xs: '3rem', md: '5rem' },
-              background: 'linear-gradient(135deg, #0d9488, #7c3aed, #f59e0b)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              filter: 'drop-shadow(0 0 28px rgba(124, 58, 237, 0.45))',
+              fontSize: { xs: '3.5rem', md: '5.5rem' },
+              color: '#f1f5f9',
+              filter: 'drop-shadow(0 0 40px rgba(13,148,136,0.5)) drop-shadow(0 0 80px rgba(124,58,237,0.2))',
               mb: 2,
-              lineHeight: 1.1,
+              lineHeight: 1.0,
+              letterSpacing: '-0.02em',
             }}
           >
             Arcadia

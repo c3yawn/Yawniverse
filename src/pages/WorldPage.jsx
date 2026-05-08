@@ -178,7 +178,7 @@ export default function WorldPage() {
         </Button>
 
         {/* World header */}
-        <Box sx={{ borderRadius: 3, overflow: 'hidden', mb: 5, border: '1px solid rgba(124,58,237,0.12)' }}>
+        <Box sx={{ borderRadius: 3, overflow: 'hidden', mb: 5, border: '1px solid rgba(255,255,255,0.07)' }}>
           <Box sx={{ height: 140, background: config.gradient, position: 'relative' }}>
             <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(6,4,20,0.9) 100%)' }} />
           </Box>
@@ -285,7 +285,7 @@ export default function WorldPage() {
                       flexDirection: 'column',
                       background: 'rgba(6, 4, 20, 0.88)',
                       backdropFilter: 'blur(20px)',
-                      border: `1px solid rgba(124,58,237,0.12)`,
+                      border: `1px solid rgba(255,255,255,0.07)`,
                       borderRadius: 2.5,
                       overflow: 'hidden',
                       transition: 'box-shadow 0.2s ease',

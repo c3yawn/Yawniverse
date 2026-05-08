@@ -51,7 +51,7 @@ function CreatureCard({ creature, selected, onSelect, disabled }) {
         backdropFilter: 'blur(20px)',
         border: selected
           ? `1px solid ${world.accent}99`
-          : creature.is_shiny ? '1px solid rgba(251,191,36,0.25)' : '1px solid rgba(124,58,237,0.12)',
+          : creature.is_shiny ? '1px solid rgba(251,191,36,0.25)' : '1px solid rgba(255,255,255,0.07)',
         borderRadius: 2.5,
         overflow: 'hidden',
         cursor: onCooldown || disabled ? 'default' : 'pointer',
@@ -215,9 +215,10 @@ export default function BreedingPage() {
           <Typography sx={{
             fontFamily: '"Cinzel", serif', fontWeight: 700,
             fontSize: { xs: '1.6rem', md: '2.2rem' },
-            background: 'linear-gradient(135deg, #0d9488, #7c3aed, #f59e0b)',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            filter: 'drop-shadow(0 0 18px rgba(124,58,237,0.35))', mb: 0.5,
+            color: '#f1f5f9',
+            filter: 'drop-shadow(0 0 18px rgba(13,148,136,0.35))',
+            letterSpacing: '-0.01em',
+            mb: 0.5,
           }}>
             Breeding
           </Typography>
@@ -313,7 +314,7 @@ export default function BreedingPage() {
                 <Box sx={{
                   mt: 5, p: 3,
                   background: 'rgba(6,4,20,0.92)', backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(124,58,237,0.12)', borderRadius: 2.5,
+                  border: '1px solid rgba(255,255,255,0.07)', borderRadius: 2.5,
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   flexWrap: 'wrap', gap: 2,
                 }}>

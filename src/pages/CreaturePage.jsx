@@ -46,7 +46,7 @@ const WORLD_CONFIG = {
 
 function StatRow({ label, value, valueColor }) {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 1.25, borderBottom: '1px solid rgba(124,58,237,0.08)' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', py: 1.25, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
       <Typography sx={{ fontFamily: '"Raleway", sans-serif', fontSize: '0.8rem', color: '#64748b', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
         {label}
       </Typography>
@@ -212,7 +212,7 @@ export default function CreaturePage() {
         </Button>
 
         {/* Header banner */}
-        <Box sx={{ borderRadius: 3, overflow: 'hidden', mb: 4, border: '1px solid rgba(124,58,237,0.12)' }}>
+        <Box sx={{ borderRadius: 3, overflow: 'hidden', mb: 4, border: '1px solid rgba(255,255,255,0.07)' }}>
           <Box sx={{ height: 120, background: worldCfg.gradient, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 30%, rgba(6,4,20,0.95) 100%)' }} />
             {spriteUrl && (

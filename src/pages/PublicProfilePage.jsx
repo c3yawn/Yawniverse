@@ -53,7 +53,7 @@ function CreatureCard({ creature }) {
       sx={{
         background: 'rgba(6, 4, 20, 0.88)',
         backdropFilter: 'blur(20px)',
-        border: creature.is_shiny ? '1px solid rgba(251,191,36,0.25)' : '1px solid rgba(124,58,237,0.12)',
+        border: creature.is_shiny ? '1px solid rgba(251,191,36,0.25)' : '1px solid rgba(255,255,255,0.07)',
         borderRadius: 2.5,
         overflow: 'hidden',
         cursor: 'pointer',
@@ -121,11 +121,11 @@ function CreatureCard({ creature }) {
 
 function SkeletonCard() {
   return (
-    <Card sx={{ background: 'rgba(6,4,20,0.88)', border: '1px solid rgba(124,58,237,0.08)', borderRadius: 2.5, overflow: 'hidden' }}>
-      <Skeleton variant="rectangular" height={80} sx={{ bgcolor: 'rgba(124,58,237,0.08)' }} />
+    <Card sx={{ background: 'rgba(6,4,20,0.88)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 2.5, overflow: 'hidden' }}>
+      <Skeleton variant="rectangular" height={80} sx={{ bgcolor: 'rgba(255,255,255,0.05)' }} />
       <Box sx={{ p: 2 }}>
-        <Skeleton width="60%" height={20} sx={{ bgcolor: 'rgba(124,58,237,0.08)', mb: 1 }} />
-        <Skeleton width="40%" height={16} sx={{ bgcolor: 'rgba(124,58,237,0.08)' }} />
+        <Skeleton width="60%" height={20} sx={{ bgcolor: 'rgba(255,255,255,0.05)', mb: 1 }} />
+        <Skeleton width="40%" height={16} sx={{ bgcolor: 'rgba(255,255,255,0.05)' }} />
       </Box>
     </Card>
   );
@@ -197,12 +197,12 @@ export default function PublicProfilePage() {
       <>
         <NebulaBackground src="images/arcadia_bg.mp4" />
         <Container maxWidth="lg" sx={{ py: 6, position: 'relative', zIndex: 1 }}>
-          <Skeleton width={80} height={20} sx={{ bgcolor: 'rgba(124,58,237,0.08)', mb: 3 }} />
+          <Skeleton width={80} height={20} sx={{ bgcolor: 'rgba(255,255,255,0.05)', mb: 3 }} />
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 5 }}>
-            <Skeleton variant="circular" width={72} height={72} sx={{ bgcolor: 'rgba(124,58,237,0.08)' }} />
+            <Skeleton variant="circular" width={72} height={72} sx={{ bgcolor: 'rgba(255,255,255,0.05)' }} />
             <Box>
-              <Skeleton width={160} height={32} sx={{ bgcolor: 'rgba(124,58,237,0.08)', mb: 1 }} />
-              <Skeleton width={100} height={16} sx={{ bgcolor: 'rgba(124,58,237,0.08)' }} />
+              <Skeleton width={160} height={32} sx={{ bgcolor: 'rgba(255,255,255,0.05)', mb: 1 }} />
+              <Skeleton width={100} height={16} sx={{ bgcolor: 'rgba(255,255,255,0.05)' }} />
             </Box>
           </Box>
           <Grid container spacing={2}>
